@@ -1,0 +1,2 @@
+# CodeSectorCMS
+Campaign Management System

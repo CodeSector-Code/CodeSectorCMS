@@ -1,0 +1,58 @@
+﻿@model CodeSectorCMS.Domain.Campaign
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+
+<div>
+    <h4>Campaign</h4>
+    <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(item => item.Messages.First().Body)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(item => item.Messages.First().SentFLAG)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(item => item.Messages.First().MonitoringStatus)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Messages)
+                {
+                    <tr>
+                    @*<td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                    </td>*@
+                        <td>
+                            @Html.ActionLink("View Message", "MessageView", new { id = item.MessageID })
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SentFLAG)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MonitoringStatus)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.CampaignID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+</body>
+</html>

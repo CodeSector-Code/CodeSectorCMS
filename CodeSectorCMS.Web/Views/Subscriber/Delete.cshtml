@@ -1,0 +1,66 @@
+﻿@model CodeSectorCMS.Web.Models.ExtendedSubscriber
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Subscriber</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+            @if (Model.PhoneNumber != "" && !String.IsNullOrWhiteSpace(Model.PhoneNumber))
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
+            }
+
+            @foreach (var item in @Model.CustomFields)
+            {
+                foreach (var field in Model.SubscriberCustomFieldValues)
+                {
+                    if (field.CustomFieldID == item.CustomFieldID && field.SubscriberID == Model.SubscriberID)
+                    {
+                        if (field.Value != "" && !String.IsNullOrWhiteSpace(field.Value))
+                        {
+                            <dt class="col-sm-2">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @field.Value
+                            </dd>
+                        }
+                    }
+                }
+            }
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="SubscriberID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
+</body>
+</html>

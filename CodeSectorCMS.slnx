@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="CodeSectorCMS.Domain/CodeSectorCMS.Domain.csproj" />
+  <Project Path="CodeSectorCMS.MessageService/CodeSectorCMS.MessageService.csproj" Id="e25407f5-f75a-4894-a23e-7c48646f380d" />
+  <Project Path="CodeSectorCMS.Web/CodeSectorCMS.Web.csproj" />
+</Solution>

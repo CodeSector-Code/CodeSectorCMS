@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Git\CodeSectorCMS\CodeSectorCMS.Web\bin\Release\net10.0\publish\</_PublishTargetUrl>
+    <History>True|2026-03-09T15:01:27.3934130Z||;True|2026-03-09T12:47:57.1986604+01:00||;</History>
+    <LastFailureDetails />
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="AzureServiceBus">
+      <Value>workstation id=CodeSectorCMS.mssql.somee.com%3bpacket size=4096%3buser id=edevexpert_SQLLogin_1%3bpwd=p5frx977hk%3bdata source=CodeSectorCMS.mssql.somee.com%3bpersist security info=False%3binitial catalog=CodeSectorCMS%3bTrustServerCertificate=True</Value>
+    </DestinationConnectionStrings>
+    <DestinationConnectionStrings Include="CMSContext">
+      <Value>workstation id=CodeSectorCMS.mssql.somee.com%3bpacket size=4096%3buser id=edevexpert_SQLLogin_1%3bpwd=p5frx977hk%3bdata source=CodeSectorCMS.mssql.somee.com%3bpersist security info=False%3binitial catalog=CodeSectorCMS%3bTrustServerCertificate=True</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

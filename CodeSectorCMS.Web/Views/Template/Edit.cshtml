@@ -1,0 +1,138 @@
+﻿@model CodeSectorCMS.Web.Models.TemplateViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<h4>Template</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TemplateID" />
+            <input type="hidden" asp-for="ClientID" />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+
+            <div class="customfieldwrapperdiv">
+                <div class="customfield" id="Name1">Name</div>
+                <div class="customfield" id="Email1">Email</div>
+                <div class="customfield" id="PhoneNumber1">Phone Number</div>
+                @foreach (var item in Model.customFields)
+                {
+                    <div class="customfield" id="@item.Name-Subject">@item.Label</div>
+                }
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Body)
+            </div>
+            <div class="editor-field">
+                @Html.TextAreaFor(model => model.Body)
+                @Html.ValidationMessageFor(model => model.Body)
+            </div>
+
+            <div class="customfieldwrapperdiv">
+                <div class="customfield" id="Name2">Name</div>
+                <div class="customfield" id="Email2">Email</div>
+                <div class="customfield" id="PhoneNumber2">Phone Number</div>
+                @foreach (var item in Model.customFields)
+                {
+                    <div class="customfield" id="@item.Name-Body">@item.Label</div>
+                }
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <script>
+             $(document).ready(function () {
+                    @foreach (var item in Model.customFields)
+                    {
+                             @:$("#@item.Name-Subject").click(function () {
+
+                                     @:  var oldText = $("#Subject").val();
+                                     @:  var newText = oldText + " *!*@item.Name*!* ";
+
+                             @:  $("#Subject").val(newText);
+                             @: });
+
+                            @:$("#@item.Name-Body").click(function () {
+
+                                     @:  var oldText = $("#Body").val();
+                                     @:  var newText = oldText + " *!*@item.Name*!* ";
+
+                             @:  $("#Body").val(newText);
+                             @:});
+                    }
+                $("#Name1").click(function () {
+
+                    var oldText = $("#Subject").val();
+                    var newText = oldText + " *!*Name*!* ";
+                    $("#Subject").val(newText);
+                });
+
+                $("#Email1").click(function () {
+
+                    var oldText = $("#Subject").val();
+                    var newText = oldText + " *!*Email*!* ";
+                    $("#Subject").val(newText);
+                });
+
+                $("#PhoneNumber1").click(function () {
+
+                    var oldText = $("#Subject").val();
+                    var newText = oldText + " *!*Phone Number*!* ";
+                    $("#Subject").val(newText);
+                });
+                $("#Name2").click(function () {
+
+                    var oldText = $("#Body").val();
+                    var newText = oldText + " *!*Name*!* ";
+                    $("#Body").val(newText);
+                });
+
+                $("#Email2").click(function () {
+
+                    var oldText = $("#Body").val();
+                    var newText = oldText + " *!*Email*!* ";
+                    $("#Body").val(newText);
+                });
+
+                $("#PhoneNumber2").click(function () {
+
+                    var oldText = $("#Body").val();
+                    var newText = oldText + " *!*Phone Number*!* ";
+                    $("#Body").val(newText);
+                });
+            });
+        </script>
+}
+</body>
+</html>

@@ -63,6 +63,7 @@ namespace CodeSectorCMS.MessageService.Services
                     Message dbMessage = messageManager.GetMessageByID(message.MessageID);
                     dbMessage.SentFLAG = true;
                     messageManager.SaveMessage(dbMessage);
+                    messageManager.SaveChanges();
                 }
 
             }

@@ -15,7 +15,7 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
         public List<Account> GetAllAccounts(int ClientId)
         {
 
-            var accounts = unitOfWork.AccountRepository.Get().Where(a => a.ClientID == ClientId).ToList();
+            var accounts = unitOfWork.AccountRepository.Get(includeProperties: "client").Where(a => a.ClientID == ClientId).ToList();
             return accounts.ToList();
         }
 

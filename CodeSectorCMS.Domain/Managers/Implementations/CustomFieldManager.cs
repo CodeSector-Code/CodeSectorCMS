@@ -17,7 +17,7 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
 
         public List<CustomField> GetAllCustomFields(int ClientId)
         {
-            var customField = unitOfWork.CustomFieldRepository.Get().Where(a => a.ClientID == ClientId).ToList();
+            var customField = unitOfWork.CustomFieldRepository.Get(includeProperties: "client").Where(a => a.ClientID == ClientId).ToList();
             return customField;
         
         }

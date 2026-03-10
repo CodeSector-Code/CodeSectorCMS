@@ -16,7 +16,7 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
         public List<MailConfig> GetAllMailConfigs(int ClientId)
         {
 
-            var mailConfig = unitOfWork.MailConfigRepository.Get().Where( a => a.ClientID == ClientId).ToList();
+            var mailConfig = unitOfWork.MailConfigRepository.Get(includeProperties: "Client").Where( a => a.ClientID == ClientId).ToList();
             return mailConfig;
         }
 

@@ -14,7 +14,7 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
 
         public List<APIKey> GetAllAPIKeys(int ClientId)
         {
-            var apiKeys = unityOfWork.APIKeyRepository.Get().Where(a => a.ClientID == ClientId).ToList();
+            var apiKeys = unityOfWork.APIKeyRepository.Get(includeProperties: "Client").Where(a => a.ClientID == ClientId).ToList();
             return apiKeys;   
         }
         public APIKey GetAPIKeyByID(int ClientId, int id)

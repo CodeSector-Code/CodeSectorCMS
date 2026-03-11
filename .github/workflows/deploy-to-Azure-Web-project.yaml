@@ -25,7 +25,7 @@ jobs:
         run: dotnet build ./CodeSectorCMS.Web/CodeSectorCMS.Web.csproj
 
       - name: Publish
-        run: dotnet publish ./CodeSectorCMS.Web/CodeSectorCMS.Web --configuration Release --output ./publish
+        run: dotnet publish ./CodeSectorCMS.Web/CodeSectorCMS.Web.csproj --configuration Release --output ./publish
 
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2

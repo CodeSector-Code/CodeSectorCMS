@@ -3,13 +3,13 @@ name: Deploy CodeSectorCMS.Web to Azure AppService
 on:
   push:
     paths:
-      - './CodeSectorCMS.Web'
-      - './CodeSectorCMS.Domain'
+      - './CodeSectorCMS.Web/**'
+      - './CodeSectorCMS.Domain/**'
       - './.github/workflows/deploy-to-Azure-Web-project.yaml'
   pull_request:
     paths:
-        - './CodeSectorCMS.Web'
-        - './CodeSectorCMS.Domain'
+        - './CodeSectorCMS.Web/**'
+        - './CodeSectorCMS.Domain/**'
         - './.github/workflows/deploy-to-Azure-Web-project.yaml'
   workflow_dispatch:
 
@@ -39,5 +39,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.SERVER_APP_NAME }}
-          publish-profile: ${{ secrets.SERVER_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.SERVER_PUBLISH_PROFILE_WEB }}
           package: ./publish

@@ -1,0 +1,43 @@
+name: Deploy CodeSectorCMS.MessageService to Azure AppService
+
+on:
+  push:
+    paths:
+      - './CodeSectorCMS.MessageService/**'
+      - './CodeSectorCMS.Domain/**'
+      - './.github/workflows/deploy-to-Azure-MessageService-project.yaml'
+  pull_request:
+    paths:
+        - './CodeSectorCMS.MessageService/**'
+        - './CodeSectorCMS.Domain/**'
+        - './.github/workflows/deploy-to-Azure-MessageService-project.yaml'
+  workflow_dispatch:
+
+env:
+  SERVER_APP_NAME: "CodeSectorCMS-MessageService"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install dependencies
+        run: dotnet restore ./CodeSectorCMS.MessageService/CodeSectorCMS.MessageService.csproj
+
+      - name: Build
+        run: dotnet build ./CodeSectorCMS.MessageService/CodeSectorCMS.MessageService.csproj
+
+      - name: Publish
+        run: dotnet publish ./CodeSectorCMS.MessageService/CodeSectorCMS.MessageService.csproj --configuration Release --output ./publish
+
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.SERVER_APP_NAME }}
+          publish-profile: ${{ secrets.SERVER_PUBLISH_PROFILE_MESSAGESERVICE }}
+          package: ./publish

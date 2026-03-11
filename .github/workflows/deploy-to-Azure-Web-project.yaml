@@ -28,7 +28,7 @@ jobs:
         run: dotnet publish ./CodeSectorCMS.Web/CodeSectorCMS.Web --configuration Release --output ./publish
 
       - name: Deploy to Azure
-        uses: azure/webapps-deploy@v4
+        uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.SERVER_APP_NAME }}
           publish-profile: ${{ secrets.SERVER_PUBLISH_PROFILE }}

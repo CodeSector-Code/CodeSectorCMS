@@ -3,14 +3,14 @@ name: Deploy CodeSectorCMS.MessageService to Azure AppService
 on:
   push:
     paths:
-      - './CodeSectorCMS.MessageService/**'
-      - './CodeSectorCMS.Domain/**'
-      - './.github/workflows/deploy-to-Azure-MessageService-project.yaml'
+      - 'CodeSectorCMS.MessageService/**'
+      - 'CodeSectorCMS.Domain/**'
+      - '.github/workflows/deploy-to-Azure-MessageService-project.yaml'
   pull_request:
     paths:
-        - './CodeSectorCMS.MessageService/**'
-        - './CodeSectorCMS.Domain/**'
-        - './.github/workflows/deploy-to-Azure-MessageService-project.yaml'
+        - 'CodeSectorCMS.MessageService/**'
+        - 'CodeSectorCMS.Domain/**'
+        - '.github/workflows/deploy-to-Azure-MessageService-project.yaml'
   workflow_dispatch:
 
 env:

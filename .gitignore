@@ -28,8 +28,6 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 .vs
-CodeSectorCMS.Web/appsettings.Development.json
-CodeSectorCMS.MessageService/appsettings.Development.json
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
@@ -55,5 +53,6 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
 /CodeSectorCMS.Web/appsettings.Development.json
 /CodeSectorCMS.MessageService/appsettings.Development.json

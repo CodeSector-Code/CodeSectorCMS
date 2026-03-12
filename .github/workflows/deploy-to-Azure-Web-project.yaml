@@ -49,9 +49,9 @@ jobs:
 
       - name: Update App Service Connection String
         run: |
+        az webapp config connection-string set --name ${{ env.SERVER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --settings DefaultConnection="${{ secrets.DB_SOMEE_CONNECTION_STRING }}" #--connection-string-type SqlServer
         # az webapp config appsettings set --name ${{ env.SERVER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --settings ConnectionStrings__DefaultConnection="${{ secrets.DB_SOMEE_CONNECTION_STRING }}"
         # For a standard connection string (not an app setting), use the 'connection-string' command:
-        az webapp config connection-string set --name ${{ env.SERVER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --settings DefaultConnection="${{ secrets.DB_SOMEE_CONNECTION_STRING }}" --connection-string-type SqlServer
 
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2

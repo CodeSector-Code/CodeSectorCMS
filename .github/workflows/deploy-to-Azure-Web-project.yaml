@@ -53,6 +53,10 @@ jobs:
         # az webapp config appsettings set --name ${{ env.SERVER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --settings ConnectionStrings__DefaultConnection="${{ secrets.DB_SOMEE_CONNECTION_STRING }}"
         # For a standard connection string (not an app setting), use the 'connection-string' command:
 
+      - name: Update App Service Bus Connection String
+        run: |
+          az webapp config connection-string set --name ${{ env.SERVER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --settings AzureServiceBus="${{ secrets.AZURE_SERVICE_BUS }}" --connection-string-type ServiceBus
+
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:

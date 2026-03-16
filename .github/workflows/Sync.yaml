@@ -21,7 +21,7 @@ jobs:
         AZURE_DEVOPS_PROJECT: CodeSectorCMS # e.g., 'myproject'
         AZURE_DEVOPS_REPO: CodeSectorCMS # e.g., 'my-repo'
       run: |
-        git remote add azuredevops https://${{ AZURE_DEVOPS_ORG }}:${{ AZURE_DEVOPS_PAT }}@://dev.azure.com{{ AZURE_DEVOPS_ORG }}/${{ AZURE_DEVOPS_PROJECT }}/_git/${{ AZURE_DEVOPS_REPO }}
+        git remote add azuredevops https://${{ env.AZURE_DEVOPS_ORG }}:${{ env.AZURE_DEVOPS_PAT }}@://dev.azure.com{{ env.AZURE_DEVOPS_ORG }}/${{ env.AZURE_DEVOPS_PROJECT }}/_git/${{ env.AZURE_DEVOPS_REPO }}
         git push azuredevops main --force # push to the main branch in Azure DevOps
 
     # - name: Push to destination repository

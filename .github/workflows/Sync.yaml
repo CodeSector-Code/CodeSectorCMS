@@ -17,11 +17,11 @@ jobs:
     - name: Push to Azure DevOps repository
       env:
         AZURE_DEVOPS_PAT: ${{ secrets.PAT_AZUREDEVOPS_CODESECTORDOO_CODESECTORCMS }}
-        AZURE_DEVOPS_ORG: CodeSectordoo # e.g., 'myorg'
-        AZURE_DEVOPS_PROJECT: CodeSectorCMS # e.g., 'myproject'
-        AZURE_DEVOPS_REPO: CodeSectorCMS # e.g., 'my-repo'
+        AZURE_DEVOPS_ORG: "CodeSectordoo" # e.g., 'myorg'
+        AZURE_DEVOPS_PROJECT: "CodeSectorCMS" # e.g., 'myproject'
+        AZURE_DEVOPS_REPO: "CodeSectorCMS" # e.g., 'my-repo'
       run: |
-        git remote add azuredevops https://${AZURE_DEVOPS_ORG}:${AZURE_DEVOPS_PAT}@://dev.azure.com{AZURE_DEVOPS_ORG}/${AZURE_DEVOPS_PROJECT}/_git/${AZURE_DEVOPS_REPO}
+        git remote add azuredevops https://${{ AZURE_DEVOPS_ORG }}:${{ AZURE_DEVOPS_PAT }}@://dev.azure.com{{ AZURE_DEVOPS_ORG }}/${{ AZURE_DEVOPS_PROJECT }}/_git/${{ AZURE_DEVOPS_REPO }}
         git push azuredevops main --force # push to the main branch in Azure DevOps
 
     # - name: Push to destination repository

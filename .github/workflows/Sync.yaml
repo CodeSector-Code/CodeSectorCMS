@@ -1,0 +1,40 @@
+name: Sync GitHub Repo To Azure DevOps Repo
+
+on:
+  push:
+    branches:
+      - main # or your default branch
+
+jobs:
+  SyncGitHubToAzureDevOps:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout GitHub repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # ensures all history is fetched
+
+    - name: Push to Azure DevOps repository
+      env:
+        AZURE_DEVOPS_PAT: ${{ secrets.PAT_AZUREDEVOPS_CODESECTORDOO_CODESECTORCMS }}
+        AZURE_DEVOPS_ORG: CodeSectordoo # e.g., 'myorg'
+        AZURE_DEVOPS_PROJECT: CodeSectorCMS # e.g., 'myproject'
+        AZURE_DEVOPS_REPO: CodeSectorCMS # e.g., 'my-repo'
+      run: |
+        git remote add azuredevops https://${AZURE_DEVOPS_ORG}:${AZURE_DEVOPS_PAT}@://dev.azure.com{AZURE_DEVOPS_ORG}/${AZURE_DEVOPS_PROJECT}/_git/${AZURE_DEVOPS_REPO}
+        git push azuredevops main --force # push to the main branch in Azure DevOps
+
+    # - name: Push to destination repository
+    #   run: |
+    #       git config --global user.email "your email"
+    #       git config --global user.name "your user name"
+    #       git clone https://${{ env.ORG_NAME }}:${{ secrets.PAT }}@github.com/${{ env.ORG_NAME }}/destination-repo.git
+    #       cd destination-repo
+    #       git remote add ${{ env.ORIGINAL_REPO_NAME }} https://${{ env.ORG_NAME }}:${{ secrets.PAT }}@github.com/${{ env.ORG_NAME }}/${{ env.ORIGINAL_REPO_NAME }}.git
+    #       git remote update
+    #       git merge ${{ env.ORIGINAL_REPO_NAME }}/main
+    #       git push origin main
+    #   env:
+    #       GITHUB_TOKEN: ${{ secrets.PAT }}
+    #       ORIGINAL_REPO_NAME: ${{ github.event.repository.name }}
+    #       ORG_NAME: Your workspace name

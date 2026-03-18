@@ -8,31 +8,31 @@ namespace CodeSectorCMS.Web.Controllers
     public abstract class BaseController : Controller
     {
         protected readonly ILogger<BaseController> logger;
-        protected readonly UserManager<ApplicationUser> userManager;
+        protected readonly UserManager<ApplicationUser> appUserManager;
         protected readonly SignInManager<ApplicationUser> signInManager;
 
         protected BaseController(ILogger<BaseController> logger, 
-            UserManager<ApplicationUser> userManager, 
+            UserManager<ApplicationUser> appUserManager, 
             SignInManager<ApplicationUser> signInManager)
         {
             this.logger = logger;
-            this.userManager = userManager;
+            this.appUserManager = appUserManager;
             this.signInManager = signInManager;
         }
 
-        private async Task<int> GetClientId()
+        private async Task<int> GetUserId()
         {
-            var clientId = -1;
+            var userId = -1;
 
             if (signInManager.IsSignedIn(User))
             {
-                var user = await userManager.GetUserAsync(User);
-                clientId = user.ClientId;
+                var user = await appUserManager.GetUserAsync(User);
+                userId = user.UserId;
             }
 
-            return clientId;
+            return userId;
         }
 
-        protected int ClientId { get { return GetClientId().Result; } }
+        protected int UserId { get { return GetUserId().Result; } }
     }
 }

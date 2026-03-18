@@ -1,8 +1,9 @@
-﻿using System;
-using CodeSectorCMS.Domain;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
+﻿using CodeSectorCMS.Domain;
+using CodeSectorCMS.Domain.Managers.Implementations;
 using CodeSectorCMS.Domain.Managers.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace CodeSectorCMS.Web.Controllers
 {
@@ -12,8 +13,8 @@ namespace CodeSectorCMS.Web.Controllers
 
         public APIKeyController(ILogger<APIKeyController> logger, 
             IAPIKeyManager aPIKeyManager,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager) : base(logger, userManager, signInManager)
+            UserManager<ApplicationUser> appUserManager,
+            SignInManager<ApplicationUser> signInManager) : base(logger, appUserManager, signInManager)
         {
             this.apiKManager = aPIKeyManager;
         }
@@ -23,7 +24,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public IActionResult Index()
         {
-            return View(apiKManager.GetAllAPIKeys(ClientId));
+            return View(apiKManager.GetAllAPIKeys(UserId));
         }
 
         //
@@ -31,7 +32,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public IActionResult Details(int id = 0)
         {
-            APIKey apikey = apiKManager.GetAPIKeyByID(ClientId, id);
+            APIKey apikey = apiKManager.GetAPIKeyByID(UserId, id);
             
             return View(apikey);
         }
@@ -41,7 +42,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public IActionResult Create()
         {
-            ViewBag.ClientId = ClientId;
+            ViewBag.UserId = UserId;
             return View();
         }
 
@@ -66,7 +67,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public IActionResult Edit(int id = 0)
         {
-            APIKey apikey = apiKManager.GetAPIKeyByID(ClientId, id);
+            APIKey apikey = apiKManager.GetAPIKeyByID(UserId, id);
             
             return View(apikey);
         }
@@ -91,7 +92,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public IActionResult Delete(int id = 0)
         {
-            APIKey apikey = apiKManager.GetAPIKeyByID(ClientId, id);
+            APIKey apikey = apiKManager.GetAPIKeyByID(UserId, id);
             
             return View(apikey);
         }
@@ -102,8 +103,8 @@ namespace CodeSectorCMS.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
-            APIKey apikey = apiKManager.GetAPIKeyByID(ClientId, id);
-            apiKManager.RemoveAPIKeyByID(ClientId, id);
+            APIKey apikey = apiKManager.GetAPIKeyByID(UserId, id);
+            apiKManager.RemoveAPIKeyByID(UserId, id);
             apiKManager.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CodeSectorCMS.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class initialization : Migration
+    public partial class Initialization : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,7 @@ namespace CodeSectorCMS.Domain.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -52,10 +52,10 @@ namespace CodeSectorCMS.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Clients",
+                name: "Userss",
                 columns: table => new
                 {
-                    ClientID = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -64,7 +64,7 @@ namespace CodeSectorCMS.Domain.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clients", x => x.ClientID);
+                    table.PrimaryKey("PK_Userss", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -179,7 +179,7 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     AccountID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -190,10 +190,10 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     table.PrimaryKey("PK_Accounts", x => x.AccountID);
                     table.ForeignKey(
-                        name: "FK_Accounts_Clients_ClientID",
-                        column: x => x.ClientID,
-                        principalTable: "Clients",
-                        principalColumn: "ClientID",
+                        name: "FK_Accounts_Userss_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Userss",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -203,7 +203,7 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     ApiKeyID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Value = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateCreated = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -213,10 +213,10 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     table.PrimaryKey("PK_APIKeys", x => x.ApiKeyID);
                     table.ForeignKey(
-                        name: "FK_APIKeys_Clients_ClientID",
-                        column: x => x.ClientID,
-                        principalTable: "Clients",
-                        principalColumn: "ClientID",
+                        name: "FK_APIKeys_Userss_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Userss",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -226,7 +226,7 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     CustomFieldID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Label = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreated = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -236,10 +236,10 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     table.PrimaryKey("PK_CustomFields", x => x.CustomFieldID);
                     table.ForeignKey(
-                        name: "FK_CustomFields_Clients_ClientID",
-                        column: x => x.ClientID,
-                        principalTable: "Clients",
-                        principalColumn: "ClientID",
+                        name: "FK_CustomFields_Userss_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Userss",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -249,7 +249,7 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     MailConfigID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Port = table.Column<int>(type: "int", nullable: false),
@@ -262,10 +262,10 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     table.PrimaryKey("PK_MailConfigs", x => x.MailConfigID);
                     table.ForeignKey(
-                        name: "FK_MailConfigs_Clients_ClientID",
-                        column: x => x.ClientID,
-                        principalTable: "Clients",
-                        principalColumn: "ClientID",
+                        name: "FK_MailConfigs_Userss_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Userss",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -276,7 +276,7 @@ namespace CodeSectorCMS.Domain.Migrations
                     SubscriberGroupID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     DateCreated = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Deleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -284,10 +284,10 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     table.PrimaryKey("PK_SubscriberGroups", x => x.SubscriberGroupID);
                     table.ForeignKey(
-                        name: "FK_SubscriberGroups_Clients_ClientID",
-                        column: x => x.ClientID,
-                        principalTable: "Clients",
-                        principalColumn: "ClientID",
+                        name: "FK_SubscriberGroups_Userss_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Userss",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -297,7 +297,7 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     SubscriberID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -308,10 +308,10 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     table.PrimaryKey("PK_Subscribers", x => x.SubscriberID);
                     table.ForeignKey(
-                        name: "FK_Subscribers_Clients_ClientID",
-                        column: x => x.ClientID,
-                        principalTable: "Clients",
-                        principalColumn: "ClientID",
+                        name: "FK_Subscribers_Userss_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Userss",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -321,7 +321,7 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     TemplateID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -332,10 +332,10 @@ namespace CodeSectorCMS.Domain.Migrations
                 {
                     table.PrimaryKey("PK_Templates", x => x.TemplateID);
                     table.ForeignKey(
-                        name: "FK_Templates_Clients_ClientID",
-                        column: x => x.ClientID,
-                        principalTable: "Clients",
-                        principalColumn: "ClientID",
+                        name: "FK_Templates_Userss_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Userss",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -428,7 +428,7 @@ namespace CodeSectorCMS.Domain.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ClientID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     AccountID = table.Column<int>(type: "int", nullable: false),
                     TemplateID = table.Column<int>(type: "int", nullable: false),
                     SubscriberGroupID = table.Column<int>(type: "int", nullable: false),
@@ -444,12 +444,6 @@ namespace CodeSectorCMS.Domain.Migrations
                         column: x => x.AccountID,
                         principalTable: "Accounts",
                         principalColumn: "AccountID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Campaigns_Clients_ClientID",
-                        column: x => x.ClientID,
-                        principalTable: "Clients",
-                        principalColumn: "ClientID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Campaigns_MailConfigs_MailConfigID",
@@ -469,13 +463,20 @@ namespace CodeSectorCMS.Domain.Migrations
                         principalTable: "Templates",
                         principalColumn: "TemplateID",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Campaigns_Userss_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Userss",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
-                    MessageID = table.Column<int>(type: "int", nullable: false),
+                    MessageID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CampaignID = table.Column<int>(type: "int", nullable: false),
                     SentFLAG = table.Column<bool>(type: "bit", nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -495,14 +496,14 @@ namespace CodeSectorCMS.Domain.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Accounts_ClientID",
+                name: "IX_Accounts_UserId",
                 table: "Accounts",
-                column: "ClientID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_APIKeys_ClientID",
+                name: "IX_APIKeys_UserId",
                 table: "APIKeys",
-                column: "ClientID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -549,11 +550,6 @@ namespace CodeSectorCMS.Domain.Migrations
                 column: "AccountID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Campaigns_ClientID",
-                table: "Campaigns",
-                column: "ClientID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Campaigns_MailConfigID",
                 table: "Campaigns",
                 column: "MailConfigID");
@@ -569,14 +565,19 @@ namespace CodeSectorCMS.Domain.Migrations
                 column: "TemplateID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomFields_ClientID",
-                table: "CustomFields",
-                column: "ClientID");
+                name: "IX_Campaigns_UserId",
+                table: "Campaigns",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MailConfigs_ClientID",
+                name: "IX_CustomFields_UserId",
+                table: "CustomFields",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MailConfigs_UserId",
                 table: "MailConfigs",
-                column: "ClientID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_CampaignID",
@@ -594,9 +595,9 @@ namespace CodeSectorCMS.Domain.Migrations
                 column: "SubscriberID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubscriberGroups_ClientID",
+                name: "IX_SubscriberGroups_UserId",
                 table: "SubscriberGroups",
-                column: "ClientID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubscriberGroupSubscriberEntitys_SubscriberGroupID",
@@ -609,9 +610,9 @@ namespace CodeSectorCMS.Domain.Migrations
                 column: "SubscriberID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subscribers_ClientID",
+                name: "IX_Subscribers_UserId",
                 table: "Subscribers",
-                column: "ClientID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubscriberSubscriberGroup_SubscribersSubscriberID",
@@ -619,9 +620,9 @@ namespace CodeSectorCMS.Domain.Migrations
                 column: "SubscribersSubscriberID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Templates_ClientID",
+                name: "IX_Templates_UserId",
                 table: "Templates",
-                column: "ClientID");
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -685,7 +686,7 @@ namespace CodeSectorCMS.Domain.Migrations
                 name: "Templates");
 
             migrationBuilder.DropTable(
-                name: "Clients");
+                name: "Userss");
         }
     }
 }

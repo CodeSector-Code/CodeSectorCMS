@@ -30,9 +30,6 @@ namespace CodeSectorCMS.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApiKeyID"));
 
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
-
                     b.Property<string>("DateCreated")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -44,14 +41,17 @@ namespace CodeSectorCMS.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("Value")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ApiKeyID");
 
-                    b.HasIndex("ClientID");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("APIKeys", (string)null);
+                    b.ToTable("APIKeys");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.Account", b =>
@@ -61,9 +61,6 @@ namespace CodeSectorCMS.Domain.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountID"));
-
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
 
                     b.Property<string>("DateCreated")
                         .IsRequired()
@@ -80,15 +77,18 @@ namespace CodeSectorCMS.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AccountID");
 
-                    b.HasIndex("ClientID");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.ApplicationUser", b =>
@@ -97,9 +97,6 @@ namespace CodeSectorCMS.Domain.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -142,6 +139,9 @@ namespace CodeSectorCMS.Domain.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -170,9 +170,6 @@ namespace CodeSectorCMS.Domain.Migrations
                     b.Property<int>("AccountID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
-
                     b.Property<string>("DateCreated")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -197,11 +194,12 @@ namespace CodeSectorCMS.Domain.Migrations
                     b.Property<int>("TemplateID")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("CampaignID");
 
                     b.HasIndex("AccountID");
-
-                    b.HasIndex("ClientID");
 
                     b.HasIndex("MailConfigID");
 
@@ -209,35 +207,9 @@ namespace CodeSectorCMS.Domain.Migrations
 
                     b.HasIndex("TemplateID");
 
-                    b.ToTable("Campaigns", (string)null);
-                });
+                    b.HasIndex("UserId");
 
-            modelBuilder.Entity("CodeSectorCMS.Domain.Client", b =>
-                {
-                    b.Property<int>("ClientID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientID"));
-
-                    b.Property<string>("DateCreated")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ClientID");
-
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Campaigns");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.CustomField", b =>
@@ -247,9 +219,6 @@ namespace CodeSectorCMS.Domain.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomFieldID"));
-
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
 
                     b.Property<string>("DateCreated")
                         .IsRequired()
@@ -266,11 +235,14 @@ namespace CodeSectorCMS.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("CustomFieldID");
 
-                    b.HasIndex("ClientID");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("CustomFields", (string)null);
+                    b.ToTable("CustomFields");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.MailConfig", b =>
@@ -280,9 +252,6 @@ namespace CodeSectorCMS.Domain.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MailConfigID"));
-
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
 
                     b.Property<string>("DateCreated")
                         .IsRequired()
@@ -309,11 +278,14 @@ namespace CodeSectorCMS.Domain.Migrations
                     b.Property<bool>("UseSSL")
                         .HasColumnType("bit");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("MailConfigID");
 
-                    b.HasIndex("ClientID");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("MailConfigs", (string)null);
+                    b.ToTable("MailConfigs");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.Message", b =>
@@ -348,7 +320,7 @@ namespace CodeSectorCMS.Domain.Migrations
 
                     b.HasIndex("CampaignID");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.Subscriber", b =>
@@ -358,9 +330,6 @@ namespace CodeSectorCMS.Domain.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubscriberID"));
-
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
 
                     b.Property<string>("DateCreated")
                         .IsRequired()
@@ -381,11 +350,14 @@ namespace CodeSectorCMS.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("SubscriberID");
 
-                    b.HasIndex("ClientID");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Subscribers", (string)null);
+                    b.ToTable("Subscribers");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.SubscriberCustomFieldValue", b =>
@@ -419,7 +391,7 @@ namespace CodeSectorCMS.Domain.Migrations
 
                     b.HasIndex("SubscriberID");
 
-                    b.ToTable("SubscriberCustomFieldValues", (string)null);
+                    b.ToTable("SubscriberCustomFieldValues");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.SubscriberGroup", b =>
@@ -429,9 +401,6 @@ namespace CodeSectorCMS.Domain.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubscriberGroupID"));
-
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
 
                     b.Property<string>("DateCreated")
                         .IsRequired()
@@ -444,11 +413,14 @@ namespace CodeSectorCMS.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("SubscriberGroupID");
 
-                    b.HasIndex("ClientID");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("SubscriberGroups", (string)null);
+                    b.ToTable("SubscriberGroups");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.SubscriberGroupSubscriberEntity", b =>
@@ -478,7 +450,7 @@ namespace CodeSectorCMS.Domain.Migrations
 
                     b.HasIndex("SubscriberID");
 
-                    b.ToTable("SubscriberGroupSubscriberEntitys", (string)null);
+                    b.ToTable("SubscriberGroupSubscriberEntitys");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.Template", b =>
@@ -492,9 +464,6 @@ namespace CodeSectorCMS.Domain.Migrations
                     b.Property<string>("Body")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ClientID")
-                        .HasColumnType("int");
 
                     b.Property<string>("DateCreated")
                         .IsRequired()
@@ -511,11 +480,42 @@ namespace CodeSectorCMS.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("TemplateID");
 
-                    b.HasIndex("ClientID");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Templates", (string)null);
+                    b.ToTable("Templates");
+                });
+
+            modelBuilder.Entity("CodeSectorCMS.Domain.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<string>("DateCreated")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Userss");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -663,29 +663,29 @@ namespace CodeSectorCMS.Domain.Migrations
 
                     b.HasIndex("SubscribersSubscriberID");
 
-                    b.ToTable("SubscriberSubscriberGroup", (string)null);
+                    b.ToTable("SubscriberSubscriberGroup");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.APIKey", b =>
                 {
-                    b.HasOne("CodeSectorCMS.Domain.Client", "Client")
+                    b.HasOne("CodeSectorCMS.Domain.User", "User")
                         .WithMany("APIKeys")
-                        .HasForeignKey("ClientID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.Account", b =>
                 {
-                    b.HasOne("CodeSectorCMS.Domain.Client", "client")
+                    b.HasOne("CodeSectorCMS.Domain.User", "User")
                         .WithMany("Acounts")
-                        .HasForeignKey("ClientID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("client");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.Campaign", b =>
@@ -693,12 +693,6 @@ namespace CodeSectorCMS.Domain.Migrations
                     b.HasOne("CodeSectorCMS.Domain.Account", "account")
                         .WithMany("Campaigns")
                         .HasForeignKey("AccountID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CodeSectorCMS.Domain.Client", "client")
-                        .WithMany("Campaigns")
-                        .HasForeignKey("ClientID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -720,9 +714,15 @@ namespace CodeSectorCMS.Domain.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("account");
+                    b.HasOne("CodeSectorCMS.Domain.User", "User")
+                        .WithMany("Campaigns")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("client");
+                    b.Navigation("User");
+
+                    b.Navigation("account");
 
                     b.Navigation("mailConfig");
 
@@ -733,24 +733,24 @@ namespace CodeSectorCMS.Domain.Migrations
 
             modelBuilder.Entity("CodeSectorCMS.Domain.CustomField", b =>
                 {
-                    b.HasOne("CodeSectorCMS.Domain.Client", "client")
+                    b.HasOne("CodeSectorCMS.Domain.User", "User")
                         .WithMany("CustomFields")
-                        .HasForeignKey("ClientID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("client");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.MailConfig", b =>
                 {
-                    b.HasOne("CodeSectorCMS.Domain.Client", "Client")
+                    b.HasOne("CodeSectorCMS.Domain.User", "User")
                         .WithMany("MailConfigs")
-                        .HasForeignKey("ClientID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.Message", b =>
@@ -766,13 +766,13 @@ namespace CodeSectorCMS.Domain.Migrations
 
             modelBuilder.Entity("CodeSectorCMS.Domain.Subscriber", b =>
                 {
-                    b.HasOne("CodeSectorCMS.Domain.Client", "Client")
+                    b.HasOne("CodeSectorCMS.Domain.User", "User")
                         .WithMany("Subscribers")
-                        .HasForeignKey("ClientID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.SubscriberCustomFieldValue", b =>
@@ -796,13 +796,13 @@ namespace CodeSectorCMS.Domain.Migrations
 
             modelBuilder.Entity("CodeSectorCMS.Domain.SubscriberGroup", b =>
                 {
-                    b.HasOne("CodeSectorCMS.Domain.Client", "Client")
+                    b.HasOne("CodeSectorCMS.Domain.User", "User")
                         .WithMany("SubscriberGroups")
-                        .HasForeignKey("ClientID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CodeSectorCMS.Domain.SubscriberGroupSubscriberEntity", b =>
@@ -826,9 +826,9 @@ namespace CodeSectorCMS.Domain.Migrations
 
             modelBuilder.Entity("CodeSectorCMS.Domain.Template", b =>
                 {
-                    b.HasOne("CodeSectorCMS.Domain.Client", null)
+                    b.HasOne("CodeSectorCMS.Domain.User", null)
                         .WithMany("Templates")
-                        .HasForeignKey("ClientID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -909,25 +909,6 @@ namespace CodeSectorCMS.Domain.Migrations
                     b.Navigation("Messages");
                 });
 
-            modelBuilder.Entity("CodeSectorCMS.Domain.Client", b =>
-                {
-                    b.Navigation("APIKeys");
-
-                    b.Navigation("Acounts");
-
-                    b.Navigation("Campaigns");
-
-                    b.Navigation("CustomFields");
-
-                    b.Navigation("MailConfigs");
-
-                    b.Navigation("SubscriberGroups");
-
-                    b.Navigation("Subscribers");
-
-                    b.Navigation("Templates");
-                });
-
             modelBuilder.Entity("CodeSectorCMS.Domain.CustomField", b =>
                 {
                     b.Navigation("SubscriberCustomFieldValues");
@@ -951,6 +932,25 @@ namespace CodeSectorCMS.Domain.Migrations
             modelBuilder.Entity("CodeSectorCMS.Domain.Template", b =>
                 {
                     b.Navigation("Campaigns");
+                });
+
+            modelBuilder.Entity("CodeSectorCMS.Domain.User", b =>
+                {
+                    b.Navigation("APIKeys");
+
+                    b.Navigation("Acounts");
+
+                    b.Navigation("Campaigns");
+
+                    b.Navigation("CustomFields");
+
+                    b.Navigation("MailConfigs");
+
+                    b.Navigation("SubscriberGroups");
+
+                    b.Navigation("Subscribers");
+
+                    b.Navigation("Templates");
                 });
 #pragma warning restore 612, 618
         }

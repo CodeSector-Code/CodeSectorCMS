@@ -13,15 +13,15 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             unitOfWork = unityOfWork;
         }
 
-        public List<Subscriber> GetAllSubscribers(int ClientId)
+        public List<Subscriber> GetAllSubscribers(int UserId)
         {
-            var subscribers = unitOfWork.SubscriberRepository.Get().Where(a => a.ClientID == ClientId).ToList();
+            var subscribers = unitOfWork.SubscriberRepository.Get().Where(a => a.UserId == UserId).ToList();
             return subscribers;
         }
 
-        public List<Subscriber> GetAllSubscribersWithCustomFieldValues(int ClientId)
+        public List<Subscriber> GetAllSubscribersWithCustomFieldValues(int UserId)
         {
-            var subscribers = unitOfWork.SubscriberRepository.Get(includeProperties: "SubscriberCustomFieldValues").Where(a => a.ClientID == ClientId).ToList();
+            var subscribers = unitOfWork.SubscriberRepository.Get(includeProperties: "SubscriberCustomFieldValues").Where(a => a.UserId == UserId).ToList();
             return subscribers;
         }
 
@@ -34,9 +34,9 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
 
 
 
-        public Subscriber GetSubscriberByID(int ClientId, int SubscriberId)
+        public Subscriber GetSubscriberByID(int UserId, int SubscriberId)
         {
-            var subscriber = unitOfWork.SubscriberRepository.Get().Where(a => a.ClientID == ClientId).Where(a => a.SubscriberID == SubscriberId).First();
+            var subscriber = unitOfWork.SubscriberRepository.Get().Where(a => a.UserId == UserId).Where(a => a.SubscriberID == SubscriberId).First();
             return (Subscriber) subscriber;
        
         }
@@ -44,9 +44,9 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
 
 
 
-        public void DeleteSubscriberByID(int ClientId, int SubscriberId)
+        public void DeleteSubscriberByID(int UserId, int SubscriberId)
          {
-             var templateToDelete = unitOfWork.SubscriberRepository.Get().Where(c => c.ClientID == ClientId).Where(s => s.SubscriberID == SubscriberId).First();
+             var templateToDelete = unitOfWork.SubscriberRepository.Get().Where(c => c.UserId == UserId).Where(s => s.SubscriberID == SubscriberId).First();
              unitOfWork.SubscriberRepository.Delete(templateToDelete);
         
          }

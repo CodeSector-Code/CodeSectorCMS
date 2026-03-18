@@ -4,11 +4,11 @@ namespace CodeSectorCMS.Domain.Managers.Interfaces
 {
     public interface IAPIKeyManager : IDisposable
     {
-        List<APIKey> GetAllAPIKeys(int ClientId);
-        APIKey GetAPIKeyByID(int clientid, int id);
+        List<APIKey> GetAllAPIKeys(int UserId);
+        APIKey GetAPIKeyByID(int UserId, int id);
         //void CreateNewAPIKey(APIKey apiKey);
         void SaveAPIKey(APIKey apiKey);
-        void RemoveAPIKeyByID(int client, int id);
+        void RemoveAPIKeyByID(int UserId, int id);
         void SaveChanges();
         void Update(APIKey ak);
     }

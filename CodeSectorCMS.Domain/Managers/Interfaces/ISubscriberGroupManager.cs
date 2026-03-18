@@ -4,10 +4,10 @@ namespace CodeSectorCMS.Domain.Managers.Interfaces
 {
     public interface ISubscriberGroupManager : IDisposable
     {
-        List<SubscriberGroup> GetAllSubscriberGroups(int ClientId);
+        List<SubscriberGroup> GetAllSubscriberGroups(int UserId);
         void CreateNewSubscriberGroup(SubscriberGroup subscriberGroup);
-        SubscriberGroup GetSubscriberGroupByID(int ClientId, int SubscriberGroupId);
-        SubscriberGroup GetSubscriberGroupWithSubscribersByID(int ClientId, int SubscriberGroupId);
+        SubscriberGroup GetSubscriberGroupByID(int UserId, int SubscriberGroupId);
+        SubscriberGroup GetSubscriberGroupWithSubscribersByID(int UserId, int SubscriberGroupId);
         void DeleteSubscriberGroupByID(int SubscriberGroupId);
         void SaveChanges();
     }

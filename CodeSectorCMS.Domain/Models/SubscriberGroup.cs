@@ -10,8 +10,8 @@ namespace CodeSectorCMS.Domain
         //[Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }
 
-        public int ClientID { get; set; }
-        public virtual Client Client { get; set; }
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
         public virtual ICollection<Campaign> Campaigns { get; set; }
 
         //[Required(ErrorMessage = "Subscriber group can not be empty.")]

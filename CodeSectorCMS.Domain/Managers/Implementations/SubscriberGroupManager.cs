@@ -12,9 +12,9 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
         {
             unitOfWork = unityOfWork;
         }
-        public List<SubscriberGroup> GetAllSubscriberGroups(int ClientId)
+        public List<SubscriberGroup> GetAllSubscriberGroups(int UserId)
         {
-            var subscriberGroup = unitOfWork.SubscriberGroupRepository.Get().Where(s => s.ClientID == ClientId).ToList();
+            var subscriberGroup = unitOfWork.SubscriberGroupRepository.Get().Where(s => s.UserId == UserId).ToList();
             return subscriberGroup.ToList();
         }
 
@@ -25,15 +25,15 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
         }
 
 
-        public SubscriberGroup GetSubscriberGroupByID(int ClientId, int SubscriberGroupId)
+        public SubscriberGroup GetSubscriberGroupByID(int UserId, int SubscriberGroupId)
         {
-            var subscriberGroup = unitOfWork.SubscriberGroupRepository.Get().Where(s => s.ClientID == ClientId).Where(s => s.SubscriberGroupID == SubscriberGroupId).First();
+            var subscriberGroup = unitOfWork.SubscriberGroupRepository.Get().Where(s => s.UserId == UserId).Where(s => s.SubscriberGroupID == SubscriberGroupId).First();
             return (SubscriberGroup)subscriberGroup;
         }
 
-        public SubscriberGroup GetSubscriberGroupWithSubscribersByID(int ClientId, int SubscriberGroupId)
+        public SubscriberGroup GetSubscriberGroupWithSubscribersByID(int UserId, int SubscriberGroupId)
         {
-            var subscriberGroup = unitOfWork.SubscriberGroupRepository.Get(includeProperties: "Subscribers").Where(s => s.ClientID == ClientId).Where(s => s.SubscriberGroupID == SubscriberGroupId).First();
+            var subscriberGroup = unitOfWork.SubscriberGroupRepository.Get(includeProperties: "Subscribers").Where(s => s.UserId == UserId).Where(s => s.SubscriberGroupID == SubscriberGroupId).First();
             return (SubscriberGroup)subscriberGroup;
         }
 

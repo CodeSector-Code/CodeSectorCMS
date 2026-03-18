@@ -28,9 +28,8 @@ namespace CodeSectorCMS.Web
             // DI
             builder.Services.AddScoped<UnityOfWork>();
             builder.Services.AddScoped<IAccountManager, AccountManager>();
-            builder.Services.AddScoped<IClientManager, ClientManager>();
+            builder.Services.AddScoped<IUserManager, UserManager>();
             builder.Services.AddScoped<IAPIKeyManager, APIKeyManager>();
-            builder.Services.AddScoped<IClientManager, ClientManager>();
             builder.Services.AddScoped<IMailConfigManager, MailConfigManager>();
             builder.Services.AddScoped<ICampaignManager, CampaignManager>();
             builder.Services.AddScoped<ICustomFieldsManager, CustomFieldManager>();

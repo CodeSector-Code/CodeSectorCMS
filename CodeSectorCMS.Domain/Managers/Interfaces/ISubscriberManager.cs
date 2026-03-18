@@ -4,11 +4,11 @@ namespace CodeSectorCMS.Domain.Managers.Interfaces
 {
      public interface ISubscriberManager : IDisposable
     {
-         List<Subscriber> GetAllSubscribers(int ClientId);
-         List<Subscriber> GetAllSubscribersWithCustomFieldValues(int ClientId);
+         List<Subscriber> GetAllSubscribers(int UserId);
+         List<Subscriber> GetAllSubscribersWithCustomFieldValues(int UserId);
          void CreateNewSubscriber(Subscriber Subscriber);
-         Subscriber GetSubscriberByID(int ClientId, int SubscriberId);
-         void DeleteSubscriberByID(int ClientId, int SubscriberId);
+         Subscriber GetSubscriberByID(int UserId, int SubscriberId);
+         void DeleteSubscriberByID(int UserId, int SubscriberId);
          void UpdateSubscriber(Subscriber subscriber);
          void SaveChanges();
 

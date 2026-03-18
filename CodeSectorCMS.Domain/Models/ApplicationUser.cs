@@ -5,6 +5,6 @@ namespace CodeSectorCMS.Domain
 {
     public class ApplicationUser : IdentityUser
     {
-        public int ClientId { get; set; }
+        public int UserId { get; set; }
     }
 }

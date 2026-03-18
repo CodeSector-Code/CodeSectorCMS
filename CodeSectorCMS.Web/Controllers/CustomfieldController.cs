@@ -16,8 +16,8 @@ namespace CodeSectorCMS.Web.Controllers
             ICustomFieldsManager customFieldManager,
             ISubscriberManager subscriberManager,
             ISubscriberCustomFieldValueManager subscriberCustomFieldValueManager,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager) : base(logger, userManager, signInManager)
+            UserManager<ApplicationUser> appUserManager,
+            SignInManager<ApplicationUser> signInManager) : base(logger, appUserManager, signInManager)
         {
             this.customFieldManager = customFieldManager;
             this.subscriberManager = subscriberManager;
@@ -26,14 +26,14 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Index()
         {
-            var customFields = customFieldManager.GetAllCustomFields(ClientId);
+            var customFields = customFieldManager.GetAllCustomFields(UserId);
             return View(customFields.ToList());
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.ClientId = ClientId;
+            ViewBag.UserId = UserId;
             return View();
         }
 
@@ -43,7 +43,7 @@ namespace CodeSectorCMS.Web.Controllers
             customFieldManager.CreateNewCustomField(customField);
             customFieldManager.SaveChanges();
 
-            List<Subscriber> subscribers = subscriberManager.GetAllSubscribers(ClientId).ToList();
+            List<Subscriber> subscribers = subscriberManager.GetAllSubscribers(UserId).ToList();
 
             foreach (var subscriber in subscribers)
             {
@@ -62,15 +62,15 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            CustomField customField = customFieldManager.GetCustomFieldByID(ClientId, id);
+            CustomField customField = customFieldManager.GetCustomFieldByID(UserId, id);
             return View(customField);
         }
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id = 0)
         {
-            CustomField customField = customFieldManager.GetCustomFieldByID(ClientId, id);
-            customFieldManager.DeleteCustomFieldByID(ClientId, id);
+            CustomField customField = customFieldManager.GetCustomFieldByID(UserId, id);
+            customFieldManager.DeleteCustomFieldByID(UserId, id);
             customFieldManager.SaveChanges();
 
             return RedirectToAction("Index");
@@ -78,7 +78,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            CustomField customField = customFieldManager.GetCustomFieldByID(ClientId, id);
+            CustomField customField = customFieldManager.GetCustomFieldByID(UserId, id);
             return View(customField);
         }
 

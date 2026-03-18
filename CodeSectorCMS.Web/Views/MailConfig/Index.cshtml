@@ -14,11 +14,14 @@
 <table class="table">
     <thead>
         <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.SenderName)
+                </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
+                @Html.DisplayNameFor(model => model.PasswordKey)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Port)
@@ -44,11 +47,14 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SenderName)
+                    </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Password)
+                @Html.DisplayFor(modelItem => item.PasswordKey)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Port)

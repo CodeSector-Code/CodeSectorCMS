@@ -7,6 +7,8 @@ namespace CodeSectorCMS.Domain
         public int MailConfigID { get; set; }
         public int UserId { get; set; }
 
+        public string SenderName { get; set; }
+
         //[Required(ErrorMessage = "Email is required.")]
         //[DataType(DataType.EmailAddress)]
         //[Display(Name = "E-mail")]
@@ -14,7 +16,7 @@ namespace CodeSectorCMS.Domain
         public string Email { get; set; }
 
         //[Required(ErrorMessage = "Password is required.")]
-        public string Password { get; set; }
+        public string PasswordKey { get; set; }
 
         //[Required(ErrorMessage = "Port is required.")]
         public int Port { get; set; }

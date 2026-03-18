@@ -13,10 +13,10 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
         {
             this.unitOfWork = unityOfWork;
         }
-        public List<MailConfig> GetAllMailConfigs(int ClientId)
+        public List<MailConfig> GetAllMailConfigs(int UserId)
         {
 
-            var mailConfig = unitOfWork.MailConfigRepository.Get(includeProperties: "Client").Where( a => a.ClientID == ClientId).ToList();
+            var mailConfig = unitOfWork.MailConfigRepository.Get(includeProperties: "User").Where( a => a.UserId == UserId).ToList();
             return mailConfig;
         }
 

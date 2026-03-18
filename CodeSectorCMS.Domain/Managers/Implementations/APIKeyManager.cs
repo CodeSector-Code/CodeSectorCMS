@@ -12,14 +12,14 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             this.unityOfWork = unityOfWork;
         }
 
-        public List<APIKey> GetAllAPIKeys(int ClientId)
+        public List<APIKey> GetAllAPIKeys(int UserId)
         {
-            var apiKeys = unityOfWork.APIKeyRepository.Get(includeProperties: "Client").Where(a => a.ClientID == ClientId).ToList();
+            var apiKeys = unityOfWork.APIKeyRepository.Get(includeProperties: "User").Where(a => a.UserId == UserId).ToList();
             return apiKeys;   
         }
-        public APIKey GetAPIKeyByID(int ClientId, int id)
+        public APIKey GetAPIKeyByID(int UserId, int id)
         {
-            var apiKey = unityOfWork.APIKeyRepository.Get().Where(a => a.ClientID == ClientId).Where(a => a.ApiKeyID == id);
+            var apiKey = unityOfWork.APIKeyRepository.Get().Where(a => a.UserId == UserId).Where(a => a.ApiKeyID == id);
             return apiKey.First();
         }
         //public void CreateNewAPIKey(APIKey apiKey)
@@ -31,9 +31,9 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             unityOfWork.APIKeyRepository.Insert(apiKey);
             
         }
-        public void RemoveAPIKeyByID(int ClientId,int ApiKeyId)
+        public void RemoveAPIKeyByID(int UserId, int ApiKeyId)
         {
-            var apiKeyToDelete = unityOfWork.APIKeyRepository.Get().Where(c => c.ClientID == ClientId).Where(t => t.ApiKeyID == ApiKeyId).First();
+            var apiKeyToDelete = unityOfWork.APIKeyRepository.Get().Where(c => c.UserId == UserId).Where(t => t.ApiKeyID == ApiKeyId).First();
             unityOfWork.APIKeyRepository.Delete(apiKeyToDelete.ApiKeyID);
         }
         public void SaveChanges()

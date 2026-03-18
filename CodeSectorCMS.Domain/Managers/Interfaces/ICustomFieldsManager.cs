@@ -4,11 +4,11 @@ namespace CodeSectorCMS.Domain.Managers.Interfaces
 {
    public interface ICustomFieldsManager : IDisposable
     {
-        List<CustomField> GetAllCustomFields(int ClientId);
+        List<CustomField> GetAllCustomFields(int UserId);
         void CreateNewCustomField(CustomField customField);
-        CustomField GetCustomFieldByID(int ClientId, int CustomFieldID);
+        CustomField GetCustomFieldByID(int UserId, int CustomFieldID);
         void UpdateCustomField(CustomField customField); 
-        void DeleteCustomFieldByID(int ClientId, int CustomFieldID);
+        void DeleteCustomFieldByID(int UserId, int CustomFieldID);
         void SaveChanges();
     }
 }

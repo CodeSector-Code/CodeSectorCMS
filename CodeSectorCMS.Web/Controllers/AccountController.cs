@@ -13,23 +13,23 @@ namespace CodeSectorCMS.Web.Controllers
     public class AccountController : BaseController
     {
         private readonly IAccountManager accountManager;
-        private readonly IClientManager clientManager;
+        private readonly IUserManager userManager;
 
         public AccountController(ILogger<AccountController> logger, 
             IAccountManager accountManager, 
-            IClientManager clientManager,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager) : base(logger,userManager, signInManager)
+            IUserManager userManager,
+            UserManager<ApplicationUser> appUserManager,
+            SignInManager<ApplicationUser> signInManager) : base(logger, appUserManager, signInManager)
         {
             this.accountManager = accountManager;
-            this.clientManager = clientManager;
+            this.userManager = userManager;
         }
 
         // GET: /Account/
 
         public async Task<IActionResult> Index()
         {
-            return View(accountManager.GetAllAccounts(ClientID: ClientId));
+            return View(accountManager.GetAllAccounts(UserId: UserId));
         }
 
 
@@ -59,8 +59,8 @@ namespace CodeSectorCMS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var applicationUser = new ApplicationUser { UserName = account.Username, Email = account.Email, ClientId = ClientId };
-                var result = await userManager.CreateAsync(applicationUser, account.Password);
+                var applicationUser = new ApplicationUser { UserName = account.Username, Email = account.Email, UserId = UserId };
+                var result = await base.appUserManager.CreateAsync(applicationUser, account.Password);
                 
                 if (!result.Succeeded)
                 {
@@ -87,19 +87,17 @@ namespace CodeSectorCMS.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var account = accountManager.GetAllAccounts(ClientId).Where(a => a.AccountID == id).First();
+            var account = accountManager.GetAllAccounts(UserId).Where(a => a.AccountID == id).First();
 
-            if (accountManager.GetAllAccounts(ClientId).Count() == 1)
+            if (accountManager.GetAllAccounts(UserId).Count() == 1)
             {
-                Client client = clientManager.GetClientByID(ClientId);
-
-                clientManager.RemoveClientByID(ClientId);
-                clientManager.SaveChanges();
+                userManager.RemoveUserByID(UserId);
+                userManager.SaveChanges();
                 await Logout();
                 return RedirectToAction("Index");
             }
 
-            if (account.AccountID == accountManager.GetAllAccounts(ClientId).Where(a => a.Username == User.Identity.Name).First().AccountID)
+            if (account.AccountID == accountManager.GetAllAccounts(UserId).Where(a => a.Username == User.Identity.Name).First().AccountID)
             {
                 await Logout();
             }
@@ -113,7 +111,7 @@ namespace CodeSectorCMS.Web.Controllers
         public async Task<IActionResult> Edit(int id = 0)
         {
             Account account = accountManager.GetAccountByID(id);
-            account.ClientID = ClientId;
+            account.UserId = UserId;
 
             
             return View(account);
@@ -127,7 +125,7 @@ namespace CodeSectorCMS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                account.ClientID = ClientId;
+                account.UserId = UserId;
 
                 accountManager.SaveAccount(account);
                 accountManager.SaveChanges();
@@ -159,18 +157,18 @@ namespace CodeSectorCMS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var c = new Client
+                var c = new User
                 {
                     Name = model.Name,
                     Description = model.Description
                 };
 
-                clientManager.CreateNewClient(c);
-                clientManager.SaveChanges();
+                userManager.CreateNewUser(c);
+                userManager.SaveChanges();
 
                 // Attempt to register the user
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, ClientId = c.ClientID };
-                var result = await userManager.CreateAsync(user, model.Password);
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, UserId = c.UserId };
+                var result = await base.appUserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -180,7 +178,7 @@ namespace CodeSectorCMS.Web.Controllers
                         Username = model.UserName,
                         Password = "",
                         Email = model.Email,
-                        ClientID = c.ClientID
+                        UserId = c.UserId
                     };
 
                     accountManager.CreateNewAccount(acc);

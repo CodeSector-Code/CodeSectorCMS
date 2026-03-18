@@ -18,7 +18,7 @@ namespace CodeSectorCMS.Domain.Repositories
         private GenericRepository<SubscriberGroup> subscriberGroupRepository;
         private GenericRepository<MailConfig> mailconfigRepository;
         private GenericRepository<Subscriber> subscriberRepository;
-        private GenericRepository<Client> clientRepository;
+        private GenericRepository<User> userRepository;
         private GenericRepository<Account> accountRepository;
         private GenericRepository<CustomField> customFieldRepository;
         private GenericRepository<SubscriberCustomFieldValue> subscriberCustomFieldValueRepository;
@@ -65,16 +65,16 @@ namespace CodeSectorCMS.Domain.Repositories
 
         }
 
-        public GenericRepository<Client> ClientRepository
+        public GenericRepository<User> UserRepository
         {
             get
             {
-                if (this.clientRepository == null)
+                if (this.userRepository == null)
                 {
-                    this.clientRepository = new GenericRepository<Client>(context);
+                    this.userRepository = new GenericRepository<User>(context);
                 }
 
-                return clientRepository;
+                return userRepository;
             }
 
         }

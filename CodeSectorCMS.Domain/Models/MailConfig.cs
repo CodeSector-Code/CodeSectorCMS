@@ -5,7 +5,7 @@ namespace CodeSectorCMS.Domain
     public class MailConfig : BaseEntity
     {
         public int MailConfigID { get; set; }
-        public int ClientID { get; set; }
+        public int UserId { get; set; }
 
         //[Required(ErrorMessage = "Email is required.")]
         //[DataType(DataType.EmailAddress)]
@@ -25,7 +25,7 @@ namespace CodeSectorCMS.Domain
 
         public Boolean UseSSL { get; set; }
 
-        public virtual Client? Client { get; set; }
+        public virtual User? User { get; set; }
         public virtual ICollection<Campaign>? Campaigns { get; set; }
     }
 }

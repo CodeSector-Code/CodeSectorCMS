@@ -14,7 +14,7 @@ namespace CodeSectorCMS.Domain
         //[Required(ErrorMessage = "Campaign description is required.")]
         public string Description { get; set; }
 
-        public int ClientID { get; set; }
+        public int UserId { get; set; }
         public int AccountID { get; set; }
         public int TemplateID { get; set; }
         public int SubscriberGroupID { get; set; }
@@ -25,7 +25,7 @@ namespace CodeSectorCMS.Domain
         public virtual SubscriberGroup subscriberGroup { get; set; }
         public virtual MailConfig mailConfig { get; set; }
         public virtual Template template { get; set; }
-        public virtual Client client { get; set; }
+        public virtual User User { get; set; }
         public virtual Account account { get; set; }
 
 

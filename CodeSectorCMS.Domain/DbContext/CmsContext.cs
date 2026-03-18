@@ -15,7 +15,7 @@ namespace CodeSectorCMS.Domain
         public DbSet<Account> Accounts { get; set; }
         public DbSet<APIKey> APIKeys { get; set; }
         public DbSet<Campaign> Campaigns { get; set; }
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<User> Userss { get; set; }
         public DbSet<CustomField> CustomFields { get; set; }
         public DbSet<MailConfig> MailConfigs { get; set; }
         public DbSet<Message> Messages { get; set; }
@@ -33,10 +33,10 @@ namespace CodeSectorCMS.Domain
                     .HasForeignKey(i => i.MailConfigID)
                     .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Client>()
+            modelBuilder.Entity<User>()
                     .HasMany(u => u.Campaigns)
-                    .WithOne(i => i.client)
-                    .HasForeignKey(i => i.ClientID)
+                    .WithOne(i => i.User)
+                    .HasForeignKey(i => i.UserId)
                     .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Template>()
@@ -51,10 +51,10 @@ namespace CodeSectorCMS.Domain
                    .HasForeignKey(i => i.AccountID)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Client>()
+            modelBuilder.Entity<User>()
                    .HasMany(u => u.Subscribers)
-                   .WithOne(i => i.Client)
-                   .HasForeignKey(i => i.ClientID)
+                   .WithOne(i => i.User)
+                   .HasForeignKey(i => i.UserId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);

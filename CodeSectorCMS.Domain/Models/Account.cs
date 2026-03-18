@@ -6,7 +6,7 @@ namespace CodeSectorCMS.Domain
    public class Account : BaseEntity
     {
        public int AccountID { get; set; }
-       public int ClientID { get; set; }
+       public int UserId { get; set; }
 
        //[Required(ErrorMessage = "Username is required.")]
        //[StringLength(20, ErrorMessage = "User name must be between 3 and 20 characters", MinimumLength = 3)]
@@ -22,7 +22,7 @@ namespace CodeSectorCMS.Domain
        //[MaxLength(50)]
        public string Email { get; set; }
 
-       public virtual Client client { get; set; }
+       public virtual User User { get; set; }
        public virtual ICollection<Campaign> Campaigns { get; set; }
     }
 }

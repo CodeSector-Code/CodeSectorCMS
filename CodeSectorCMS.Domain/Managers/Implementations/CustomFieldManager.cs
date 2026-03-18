@@ -15,9 +15,9 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             this.unitOfWork = unityOfWork;
         }
 
-        public List<CustomField> GetAllCustomFields(int ClientId)
+        public List<CustomField> GetAllCustomFields(int UserId)
         {
-            var customField = unitOfWork.CustomFieldRepository.Get(includeProperties: "client").Where(a => a.ClientID == ClientId).ToList();
+            var customField = unitOfWork.CustomFieldRepository.Get(includeProperties: "User").Where(a => a.UserId == UserId).ToList();
             return customField;
         
         }
@@ -29,18 +29,18 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
 
         }
 
-        public CustomField GetCustomFieldByID(int ClientId, int CustomFieldId)
+        public CustomField GetCustomFieldByID(int UserId, int CustomFieldId)
         {
-            var customField = unitOfWork.CustomFieldRepository.Get().Where(a => a.ClientID == ClientId).Where(c => c.CustomFieldID == CustomFieldId).First();
+            var customField = unitOfWork.CustomFieldRepository.Get().Where(a => a.UserId == UserId).Where(c => c.CustomFieldID == CustomFieldId).First();
             return customField;
         }
         public void UpdateCustomField(CustomField customField)
         {
             unitOfWork.CustomFieldRepository.Update(customField);
         }
-        public void DeleteCustomFieldByID(int ClientId, int CustomFieldId)
+        public void DeleteCustomFieldByID(int UserId, int CustomFieldId)
         {
-            var customFieldToDelete = unitOfWork.CustomFieldRepository.Get().Where(c => c.ClientID == ClientId).Where(c => c.CustomFieldID == CustomFieldId).First();
+            var customFieldToDelete = unitOfWork.CustomFieldRepository.Get().Where(c => c.UserId == UserId).Where(c => c.CustomFieldID == CustomFieldId).First();
             unitOfWork.CustomFieldRepository.Delete(customFieldToDelete.CustomFieldID);
         
         }

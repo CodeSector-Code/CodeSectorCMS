@@ -12,18 +12,18 @@ namespace CodeSectorCMS.Web.Controllers
     public class CampaignController : BaseController
     {
         private readonly ICampaignManager campaignManager;
-        private readonly IClientManager clientManager;
+        private readonly IUserManager userManager;
         private readonly IAccountManager accountManager;
 
         public CampaignController(ILogger<APIKeyController> logger,
             ICampaignManager campaignManager,
-            IClientManager clientManager,
+            IUserManager userManager,
             IAccountManager accountManager,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager) : base(logger, userManager, signInManager)
+            UserManager<ApplicationUser> appUserManager,
+            SignInManager<ApplicationUser> signInManager) : base(logger, appUserManager, signInManager)
         {
             this.campaignManager = campaignManager;
-            this.clientManager = clientManager;
+            this.userManager = userManager;
             this.accountManager = accountManager;
         }
 
@@ -32,7 +32,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Index()
         {
-            var campaigns = campaignManager.GetAllCampaigns().Where(c => c.ClientID == ClientId);
+            var campaigns = campaignManager.GetAllCampaigns().Where(c => c.UserId == UserId);
             return View(campaigns.ToList());
         }
 
@@ -50,10 +50,10 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Create()
         {
-            Client client = clientManager.GetClientForTemplateByID(ClientId);
-            ViewBag.SubscriberGroupID = new SelectList(client.SubscriberGroups, "SubscriberGroupID", "Name");
-            ViewBag.MailConfigID = new SelectList(client.MailConfigs, "MailConfigID", "Email");
-            ViewBag.TemplateID = new SelectList(client.Templates, "TemplateID", "Name");
+            User user = userManager.GetUserForTemplateByID(UserId);
+            ViewBag.SubscriberGroupID = new SelectList(user.SubscriberGroups, "SubscriberGroupID", "Name");
+            ViewBag.MailConfigID = new SelectList(user.MailConfigs, "MailConfigID", "Email");
+            ViewBag.TemplateID = new SelectList(user.Templates, "TemplateID", "Name");
             return View();
         }
 
@@ -65,11 +65,11 @@ namespace CodeSectorCMS.Web.Controllers
         {
             //if (ModelState.IsValid)
             //{
-                Account acc = accountManager.GetAllAccounts(ClientId).First();
+                Account acc = accountManager.GetAllAccounts(UserId).First();
 
                 var request = new Request
                 {
-                    ClientID = ClientId,
+                    UserId = UserId,
                     AccountID = acc.AccountID,
                     TemplateID = campaign.TemplateID,
                     SubsrciberGroupID = campaign.SubscriberGroupID,
@@ -86,10 +86,10 @@ namespace CodeSectorCMS.Web.Controllers
                 return RedirectToAction("Index");
             //}
 
-            Client client = clientManager.GetClientForTemplateByID(ClientId);
-            ViewBag.SubscriberGroupID = new SelectList(client.SubscriberGroups, "SubscriberGroupID", "Name", campaign.SubscriberGroupID);
-            ViewBag.MailConfigID = new SelectList(client.MailConfigs, "MailConfigID", "Email", campaign.MailConfigID);
-            ViewBag.TemplateID = new SelectList(client.Templates, "TemplateID", "Name", campaign.TemplateID);
+            User user = userManager.GetUserForTemplateByID(UserId);
+            ViewBag.SubscriberGroupID = new SelectList(user.SubscriberGroups, "SubscriberGroupID", "Name", campaign.SubscriberGroupID);
+            ViewBag.MailConfigID = new SelectList(user.MailConfigs, "MailConfigID", "Email", campaign.MailConfigID);
+            ViewBag.TemplateID = new SelectList(user.Templates, "TemplateID", "Name", campaign.TemplateID);
             return View(campaign);
         }
 
@@ -133,7 +133,7 @@ namespace CodeSectorCMS.Web.Controllers
         public ActionResult MessageView(int id = 0)
         {
             // Message msg = db.Messages.Find(id);
-            var campaigns = campaignManager.GetAllCampaigns().Where(c => c.ClientID == ClientId);
+            var campaigns = campaignManager.GetAllCampaigns().Where(c => c.UserId == UserId);
             Message msg = null;
             foreach (Campaign campaign in campaigns)
             {
@@ -148,7 +148,7 @@ namespace CodeSectorCMS.Web.Controllers
         protected override void Dispose(bool disposing)
         {
             accountManager.Dispose();
-            clientManager.Dispose();
+            userManager.Dispose();
             campaignManager.Dispose();
             base.Dispose(disposing);
         }

@@ -15,8 +15,8 @@ namespace CodeSectorCMS.Web.Controllers
         public SubscriberGroupController(ILogger<APIKeyController> logger,
             ISubscriberManager subscriberManager,
             ISubscriberGroupManager subscriberGroupManager,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager) : base(logger, userManager, signInManager)
+            UserManager<ApplicationUser> appUserManager,
+            SignInManager<ApplicationUser> signInManager) : base(logger, appUserManager, signInManager)
         {
             this.subscriberManager = subscriberManager;
             this.subscriberGroupManager = subscriberGroupManager;
@@ -27,7 +27,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(subscriberGroupManager.GetAllSubscriberGroups(ClientId));
+            return View(subscriberGroupManager.GetAllSubscriberGroups(UserId));
         }
 
         //
@@ -35,7 +35,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            SubscriberGroup subscribergroup = subscriberGroupManager.GetSubscriberGroupWithSubscribersByID(ClientId, id);
+            SubscriberGroup subscribergroup = subscriberGroupManager.GetSubscriberGroupWithSubscribersByID(UserId, id);
 
             return View(subscribergroup);
         }
@@ -47,8 +47,8 @@ namespace CodeSectorCMS.Web.Controllers
         {
             var sub = new SubscriberGroupViewModel
             {
-                Subscribers = subscriberManager.GetAllSubscribers(ClientId).Select(x => new SubscriberGroupModels { SubscriberID = x.SubscriberID, Email = x.Email }).ToList(),
-                SubscriberGroups = subscriberGroupManager.GetAllSubscriberGroups(ClientId).Select(x => new SubscriberGroupModel2 { SubscriberGroupID = x.SubscriberGroupID, Subscribers = x.Subscribers, Name = x.Name }).ToList()
+                Subscribers = subscriberManager.GetAllSubscribers(UserId).Select(x => new SubscriberGroupModels { SubscriberID = x.SubscriberID, Email = x.Email }).ToList(),
+                SubscriberGroups = subscriberGroupManager.GetAllSubscriberGroups(UserId).Select(x => new SubscriberGroupModel2 { SubscriberGroupID = x.SubscriberGroupID, Subscribers = x.Subscribers, Name = x.Name }).ToList()
             };
 
             return View(sub);
@@ -66,10 +66,10 @@ namespace CodeSectorCMS.Web.Controllers
 
                 foreach (var item in model.Subscribers.Where(x => x.IsSelected))
                 {
-                    subscribers.Add(subscriberManager.GetSubscriberByID(ClientId,item.SubscriberID));
+                    subscribers.Add(subscriberManager.GetSubscriberByID(UserId,item.SubscriberID));
                 }
 
-                subscriberGroupManager.CreateNewSubscriberGroup(new SubscriberGroup { SubscriberGroupID = model.GroupId , ClientID = ClientId, Name = model.Name, Subscribers = subscribers });
+                subscriberGroupManager.CreateNewSubscriberGroup(new SubscriberGroup { SubscriberGroupID = model.GroupId , UserId = UserId, Name = model.Name, Subscribers = subscribers });
                 subscriberGroupManager.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -83,7 +83,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            SubscriberGroup subscribergroup = subscriberGroupManager.GetSubscriberGroupWithSubscribersByID(ClientId, id);
+            SubscriberGroup subscribergroup = subscriberGroupManager.GetSubscriberGroupWithSubscribersByID(UserId, id);
 
             var model = new SubscriberGroupViewModel
             {
@@ -91,7 +91,7 @@ namespace CodeSectorCMS.Web.Controllers
                 Name = subscribergroup.Name
             };
 
-            var allSubscribers = subscriberManager.GetAllSubscribers(ClientId);
+            var allSubscribers = subscriberManager.GetAllSubscribers(UserId);
             foreach (var item in allSubscribers)
             {
                 model.Subscribers.Add(new SubscriberGroupModels
@@ -113,11 +113,11 @@ namespace CodeSectorCMS.Web.Controllers
         {
             //if (ModelState.IsValid)
             //{
-                var subscriberGroup = subscriberGroupManager.GetSubscriberGroupWithSubscribersByID(ClientId, model.GroupId);
+                var subscriberGroup = subscriberGroupManager.GetSubscriberGroupWithSubscribersByID(UserId, model.GroupId);
 
                 var selectedSubscriberIds = model.Subscribers.Where(s => s.IsSelected).Select(s => s.SubscriberID).ToList();
 
-                var newSubscribers = subscriberManager.GetAllSubscribers(ClientId).Where(s => selectedSubscriberIds.Contains(s.SubscriberID));
+                var newSubscribers = subscriberManager.GetAllSubscribers(UserId).Where(s => selectedSubscriberIds.Contains(s.SubscriberID));
 
                 subscriberGroup.Subscribers.Clear();
 
@@ -138,7 +138,7 @@ namespace CodeSectorCMS.Web.Controllers
                 //{
 
                 //    group.Subscribers.Remove(item);
-                //    //subscribers.Add(db.Subscribers.Where(x => x.ClientID == ClientId && x.SubscriberID == item.SubscriberID).First());
+                //    //subscribers.Add(db.Subscribers.Where(x => x.UserId == UserId && x.SubscriberID == item.SubscriberID).First());
                 //    //group.Subscribers.Remove(
                 //        //db.sub
                 //}
@@ -151,11 +151,11 @@ namespace CodeSectorCMS.Web.Controllers
 
                 //db.SubscriberGroups.Remove(db.SubscriberGroups.Find(model.GroupId));
                 //a.Subscribers = subscribers;
-                ////a.ClientID = ClientId;
+                ////a.UserId = UserId;
                 //db.Entry(a).State = EntityState.Modified;
                 //subscribers[0].
                 //db.
-                //db.Entry(new SubscriberGroup { SubscriberGroupID = model.GroupId, ClientID = ClientId, Name = model.Name, Subscribers = subscribers }).State = EntityState.Modified;
+                //db.Entry(new SubscriberGroup { SubscriberGroupID = model.GroupId, UserId = UserId, Name = model.Name, Subscribers = subscribers }).State = EntityState.Modified;
                 //foreach (Subscriber s in a.Subscribers)
                 //{
                 //    db.MailConfigs.SubscriberGroupSubscriber 
@@ -171,7 +171,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            SubscriberGroup subscribergroup = subscriberGroupManager.GetSubscriberGroupByID(ClientId, id);
+            SubscriberGroup subscribergroup = subscriberGroupManager.GetSubscriberGroupByID(UserId, id);
             return View(subscribergroup);
         }
 
@@ -181,7 +181,7 @@ namespace CodeSectorCMS.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            SubscriberGroup subscribergroup = subscriberGroupManager.GetSubscriberGroupByID(ClientId,id);
+            SubscriberGroup subscribergroup = subscriberGroupManager.GetSubscriberGroupByID(UserId,id);
             subscriberGroupManager.DeleteSubscriberGroupByID(subscribergroup.SubscriberGroupID);
             subscriberGroupManager.SaveChanges();
 

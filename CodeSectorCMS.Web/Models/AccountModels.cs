@@ -74,7 +74,7 @@ namespace CodeSectorCMS.Web.Models
         [Required]
         public string Email { get; set; }
 
-        //Client Entity.............................................................................................
+        //User Entity.............................................................................................
         [Required]
         [Display(Name = "Company Name")]
         public string Name { get; set; }

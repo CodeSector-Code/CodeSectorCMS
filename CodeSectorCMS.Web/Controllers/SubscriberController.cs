@@ -17,8 +17,8 @@ namespace CodeSectorCMS.Web.Controllers
             ISubscriberManager subscriberManager,
             ICustomFieldsManager customFieldsManager,
             ISubscriberCustomFieldValueManager subscriberCustomFieldValueManager,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager) : base(logger, userManager, signInManager)
+            UserManager<ApplicationUser> appUserManager,
+            SignInManager<ApplicationUser> signInManager) : base(logger, appUserManager, signInManager)
         {
             this.subscriberManager = subscriberManager;
             this.customFieldsManager = customFieldsManager;
@@ -30,14 +30,14 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Index()
         {
-            var subscribers = subscriberManager.GetAllSubscribers(ClientId).Select(s => new ExtendedSubscriber
+            var subscribers = subscriberManager.GetAllSubscribers(UserId).Select(s => new ExtendedSubscriber
             {
-                ClientID = s.ClientID,
+                UserId = s.UserId,
                 SubscriberID = s.SubscriberID,
                 Name = s.Name,
                 Email = s.Email,
                 PhoneNumber = s.PhoneNumber,
-                Client = s.Client
+                User = s.User
             });
 
             return View(subscribers.ToList());
@@ -48,15 +48,15 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            ExtendedSubscriber subscriber = subscriberManager.GetAllSubscribersWithCustomFieldValues(ClientId).Where(s => s.SubscriberID == id).Select(s => new ExtendedSubscriber
+            ExtendedSubscriber subscriber = subscriberManager.GetAllSubscribersWithCustomFieldValues(UserId).Where(s => s.SubscriberID == id).Select(s => new ExtendedSubscriber
             {
-                ClientID = s.ClientID,
+                UserId = s.UserId,
                 SubscriberID = s.SubscriberID,
                 Name = s.Name,
                 Email = s.Email,
                 PhoneNumber = s.PhoneNumber,
-                Client = s.Client,
-                CustomFields = customFieldsManager.GetAllCustomFields(ClientId).ToList(),
+                User = s.User,
+                CustomFields = customFieldsManager.GetAllCustomFields(UserId).ToList(),
                 SubscriberCustomFieldValues = subscriberCustomFieldValueManager.GetAllSubscriberCustomFieldValue(s.SubscriberID).ToList()
             }).First();
 
@@ -70,10 +70,10 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.ClientId = ClientId;
+            ViewBag.UserId = UserId;
             ExtendedSubscriber extendedSubscriber = new ExtendedSubscriber
             {
-                CustomFields = customFieldsManager.GetAllCustomFields(ClientId).ToList()
+                CustomFields = customFieldsManager.GetAllCustomFields(UserId).ToList()
             };
 
             return View(extendedSubscriber);
@@ -89,7 +89,7 @@ namespace CodeSectorCMS.Web.Controllers
             {
                 Subscriber s = new Subscriber
                 {
-                    ClientID = ClientId,
+                    UserId = UserId,
                     Name = subscriber["Name"],
                     Email = subscriber["Email"],
                     PhoneNumber = subscriber["PhoneNumber"]
@@ -101,7 +101,7 @@ namespace CodeSectorCMS.Web.Controllers
 
                 ExtendedSubscriber exS = new ExtendedSubscriber
                 {
-                    CustomFields = customFieldsManager.GetAllCustomFields(ClientId).ToList()
+                    CustomFields = customFieldsManager.GetAllCustomFields(UserId).ToList()
                 };
 
                 foreach (var item in exS.CustomFields)
@@ -130,15 +130,15 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            ExtendedSubscriber subscriber = subscriberManager.GetAllSubscribersWithCustomFieldValues(ClientId).Where(s => s.SubscriberID == id).Select(s => new ExtendedSubscriber
+            ExtendedSubscriber subscriber = subscriberManager.GetAllSubscribersWithCustomFieldValues(UserId).Where(s => s.SubscriberID == id).Select(s => new ExtendedSubscriber
             {
-                ClientID = s.ClientID,
+                UserId = s.UserId,
                 SubscriberID = s.SubscriberID,
                 Name = s.Name,
                 Email = s.Email,
                 PhoneNumber = s.PhoneNumber,
-                Client = s.Client,
-                CustomFields = customFieldsManager.GetAllCustomFields(ClientId).ToList(),
+                User = s.User,
+                CustomFields = customFieldsManager.GetAllCustomFields(UserId).ToList(),
                 SubscriberCustomFieldValues = subscriberCustomFieldValueManager.GetAllSubscriberCustomFieldValue(s.SubscriberID).ToList()
             }).First();
 
@@ -157,7 +157,7 @@ namespace CodeSectorCMS.Web.Controllers
                 Subscriber s = new Subscriber
                 {
                     SubscriberID = Int32.Parse(subscriber["SubscriberID"]),
-                    ClientID = ClientId,
+                    UserId = UserId,
                     Name = subscriber["Name"],
                     Email = subscriber["Email"],
                     PhoneNumber = subscriber["PhoneNumber"]
@@ -169,7 +169,7 @@ namespace CodeSectorCMS.Web.Controllers
 
                 ExtendedSubscriber exS = new ExtendedSubscriber
                 {
-                    CustomFields = customFieldsManager.GetAllCustomFields(ClientId).ToList()
+                    CustomFields = customFieldsManager.GetAllCustomFields(UserId).ToList()
                 };
 
                 foreach (var item in exS.CustomFields)
@@ -200,15 +200,15 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            ExtendedSubscriber subscriber = subscriberManager.GetAllSubscribersWithCustomFieldValues(ClientId).Where(s => s.SubscriberID == id).Select(s => new ExtendedSubscriber
+            ExtendedSubscriber subscriber = subscriberManager.GetAllSubscribersWithCustomFieldValues(UserId).Where(s => s.SubscriberID == id).Select(s => new ExtendedSubscriber
             {
-                ClientID = s.ClientID,
+                UserId = s.UserId,
                 SubscriberID = s.SubscriberID,
                 Name = s.Name,
                 Email = s.Email,
                 PhoneNumber = s.PhoneNumber,
-                Client = s.Client,
-                CustomFields = customFieldsManager.GetAllCustomFields(ClientId).ToList(),
+                User = s.User,
+                CustomFields = customFieldsManager.GetAllCustomFields(UserId).ToList(),
                 SubscriberCustomFieldValues = subscriberCustomFieldValueManager.GetAllSubscriberCustomFieldValue(s.SubscriberID).ToList()
             }).First();
 
@@ -221,7 +221,7 @@ namespace CodeSectorCMS.Web.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            subscriberManager.DeleteSubscriberByID(ClientId, id);
+            subscriberManager.DeleteSubscriberByID(UserId, id);
             subscriberManager.SaveChanges();
 
             return RedirectToAction("Index");
@@ -258,7 +258,7 @@ namespace CodeSectorCMS.Web.Controllers
         }
         private void contentFromFile(string path)
         {
-            CustomField[] customFields = customFieldsManager.GetAllCustomFields(ClientId).ToArray();
+            CustomField[] customFields = customFieldsManager.GetAllCustomFields(UserId).ToArray();
             string[][] properties = System.IO.File.ReadLines(path).Where(c => c != "").Select(c => c.Split(new[] { ',' })).ToArray();
 
             for (int i = 0; i < properties.Length; i++)
@@ -268,7 +268,7 @@ namespace CodeSectorCMS.Web.Controllers
                 {
                     Subscriber subscriber = new Subscriber
                     {
-                        ClientID = ClientId,
+                        UserId = UserId,
                         Name = temp[0],
                         Email = temp[1],
                         PhoneNumber = temp[2]

@@ -5,43 +5,43 @@ using CodeSectorCMS.Domain.Repositories;
 
 namespace CodeSectorCMS.Domain.Managers.Implementations
 {
-    public class ClientManager : IClientManager
+    public class UserManager : IUserManager
     {
         private UnityOfWork unityOfWork;
 
-        public ClientManager(UnityOfWork unityOfWork)
+        public UserManager(UnityOfWork unityOfWork)
         {
             this.unityOfWork = unityOfWork;
         }
 
-        public List<Client> GetAllClients()
+        public List<User> GetAllUsers()
         {
-            return unityOfWork.ClientRepository.GetAll().ToList();
+            return unityOfWork.UserRepository.GetAll().ToList();
         }
 
-        public Client GetClientByID(int id)
+        public User GetUserByID(int id)
         {
-            return unityOfWork.ClientRepository.GetByID(id);
+            return unityOfWork.UserRepository.GetByID(id);
         }
 
-        public Client GetClientForTemplateByID(int id)
+        public User GetUserForTemplateByID(int id)
         {
-            return unityOfWork.ClientRepository.Get(includeProperties: "SubscriberGroups,MailConfigs,Templates").Where(x => x.ClientID == id).First();
+            return unityOfWork.UserRepository.Get(includeProperties: "SubscriberGroups,MailConfigs,Templates").Where(x => x.UserId == id).First();
         }
 
-        public void CreateNewClient(Client client)
+        public void CreateNewUser(User user)
         {
-            unityOfWork.ClientRepository.Insert(client);
+            unityOfWork.UserRepository.Insert(user);
         }
 
-        public void SaveClient(Client client)
+        public void SaveUser(User user)
         {
-            unityOfWork.ClientRepository.Update(client);
+            unityOfWork.UserRepository.Update(user);
         }
 
-        public void RemoveClientByID(int id)
+        public void RemoveUserByID(int id)
         {
-            unityOfWork.ClientRepository.Delete(id);
+            unityOfWork.UserRepository.Delete(id);
         }
 
         public void SaveChanges()

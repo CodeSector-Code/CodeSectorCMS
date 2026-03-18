@@ -13,18 +13,18 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             this.unityOfWork = unityOfWork;
         }
 
-        public IQueryable<Template> GetTemplateByID(int ClientId, int TemplateID)
+        public IQueryable<Template> GetTemplateByID(int UserId, int TemplateID)
         {
        
-            var template = unityOfWork.TemplateRepository.Get().Where(a => a.ClientID == ClientId).Where(a => a.TemplateID == TemplateID).AsQueryable();
+            var template = unityOfWork.TemplateRepository.Get().Where(a => a.UserId == UserId).Where(a => a.TemplateID == TemplateID).AsQueryable();
             return template;
 
         }
 
       
-        public List<Template> GetAllTemplate(int ClientId)
+        public List<Template> GetAllTemplate(int UserId)
         {
-            var templates = unityOfWork.TemplateRepository.Get().Where(a => a.ClientID == ClientId).ToList();
+            var templates = unityOfWork.TemplateRepository.Get().Where(a => a.UserId == UserId).ToList();
             return templates;
           
         }
@@ -38,10 +38,10 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
 
        
        
-        public void DeleteTemplateByID(int ClientId, int TemplateID)
+        public void DeleteTemplateByID(int UserId, int TemplateID)
         {
 
-            var templateToDelete = unityOfWork.TemplateRepository.Get().Where(c => c.ClientID == ClientId).Where(t => t.TemplateID == TemplateID).First();
+            var templateToDelete = unityOfWork.TemplateRepository.Get().Where(c => c.UserId == UserId).Where(t => t.TemplateID == TemplateID).First();
             unityOfWork.TemplateRepository.Delete(templateToDelete.TemplateID);
         }
 

@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CodeSectorCMS.Domain
 {
-    public class Client : BaseEntity
+    public class User : BaseEntity
     {
-        public int ClientID { get; set; }
+        public int UserId { get; set; }
         //[Display(Name="Client name")]
         //[Required(ErrorMessage = "Client name is required.")]
         public string Name { get; set; }

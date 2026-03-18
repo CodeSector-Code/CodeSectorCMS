@@ -12,10 +12,10 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             this.unitOfWork = unitOfWork;
         }
 
-        public List<Account> GetAllAccounts(int ClientId)
+        public List<Account> GetAllAccounts(int UserId)
         {
 
-            var accounts = unitOfWork.AccountRepository.Get(includeProperties: "client").Where(a => a.ClientID == ClientId).ToList();
+            var accounts = unitOfWork.AccountRepository.Get(includeProperties: "User").Where(a => a.UserId == UserId).ToList();
             return accounts.ToList();
         }
 
@@ -30,9 +30,9 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             return unitOfWork.AccountRepository.GetByID(AccountID);
         }
 
-        public Account GetAccount(int AccountId, int ClientId)
+        public Account GetAccount(int AccountId, int UserId)
         {
-            var accountToShow = unitOfWork.AccountRepository.Get().Where(a => a.ClientID == ClientId).Where(a => a.AccountID == AccountId).First();
+            var accountToShow = unitOfWork.AccountRepository.Get().Where(a => a.UserId == UserId).Where(a => a.AccountID == AccountId).First();
             return accountToShow;
 
         }
@@ -48,17 +48,17 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             unitOfWork.AccountRepository.Delete(accountToDelete);
         }
 
-        public void DeleteAccount(int AccountId, int ClientId)
+        public void DeleteAccount(int AccountId, int UserId)
         {
-            var accountToDelete = unitOfWork.AccountRepository.Get().Where(a => a.ClientID == ClientId).Where(a => a.AccountID == AccountId).First();
+            var accountToDelete = unitOfWork.AccountRepository.Get().Where(a => a.UserId == UserId).Where(a => a.AccountID == AccountId).First();
             unitOfWork.AccountRepository.Delete(accountToDelete);
             
        
         }
 
-        public void Details(int AccountId, int ClientId)
+        public void Details(int AccountId, int UserId)
         {
-            var accountToShow = unitOfWork.AccountRepository.Get().Where(a => a.ClientID == ClientId).Where(a => a.AccountID == AccountId).First();
+            var accountToShow = unitOfWork.AccountRepository.Get().Where(a => a.UserId == UserId).Where(a => a.AccountID == AccountId).First();
            
             
         }

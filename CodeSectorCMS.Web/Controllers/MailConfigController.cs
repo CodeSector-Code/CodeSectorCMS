@@ -12,26 +12,26 @@ namespace CodeSectorCMS.Web.Controllers
 
         public MailConfigController(ILogger<APIKeyController> logger,
             IMailConfigManager mailConfigManager,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager) : base(logger, userManager, signInManager)
+            UserManager<ApplicationUser> appUserManager,
+            SignInManager<ApplicationUser> signInManager) : base(logger, appUserManager, signInManager)
         {
             this.mailConfigManager = mailConfigManager;
         }
 
         public ActionResult Index()
         {
-            return View(mailConfigManager.GetAllMailConfigs(ClientId));
+            return View(mailConfigManager.GetAllMailConfigs(UserId));
         }
 
         public ActionResult Details(int id = 0)
         {
-            MailConfig mailconfig = mailConfigManager.GetAllMailConfigs(ClientId).Where(m => m.MailConfigID == id).First();
+            MailConfig mailconfig = mailConfigManager.GetAllMailConfigs(UserId).Where(m => m.MailConfigID == id).First();
             return View(mailconfig);
         }
 
         public ActionResult Create()
         {
-            ViewBag.ClientId = ClientId;
+            ViewBag.UserId = UserId;
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            MailConfig mailconfig = mailConfigManager.GetAllMailConfigs(ClientId).Where(m => m.MailConfigID == id).First();
+            MailConfig mailconfig = mailConfigManager.GetAllMailConfigs(UserId).Where(m => m.MailConfigID == id).First();
             return View(mailconfig);
         }
 

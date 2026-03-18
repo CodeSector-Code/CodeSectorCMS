@@ -23,16 +23,16 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
 
         public void CreateNewCampaign(Request request)
         {
-            // Get client mail configuration (we use first configuration for now)
-            //var client = Unit.ClientRepository.Get(includeProperties: "MailConfigs").Where(x => x.ClientID == request.ClientID).First();
-            //var mailConfig = client.MailConfigs.First();
+            // Get User mail configuration (we use first configuration for now)
+            //var user = Unit.UserRepository.Get(includeProperties: "MailConfigs").Where(x => x.UserId == request.UserId).First();
+            //var mailConfig = user.MailConfigs.First();
 
             // Create new campaign and save it to db
             Campaign campaign = new Campaign
             {
                 Name = request.CampaignName,
                 Description = request.CampaignDescription,
-                ClientID = (request.ClientID ?? 1),
+                UserId = (request.UserId ?? 1),
                 AccountID = (request.AccountID ?? 1),
                 TemplateID = (request.TemplateID ?? 1),
                 SubscriberGroupID = (request.SubsrciberGroupID ?? 1),
@@ -85,11 +85,8 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             // Get template associated with this campaign
             Template template = Unit.TemplateRepository.GetByID(campaign.TemplateID);
 
-            // Get a list of all custom fields created by this client
-            var clientCustomFields = Unit.ClientRepository.Get(includeProperties: "CustomFields").Where(x => x.ClientID == campaign.ClientID).First().CustomFields.ToList();
-
-            int numberOfMessages = Unit.MessageRepository.GetAll().Count();
-            int counter = 1;
+            // Get a list of all custom fields created by this user
+            var userCustomFields = Unit.UserRepository.Get(includeProperties: "CustomFields").Where(x => x.UserId == campaign.UserId).First().CustomFields.ToList();
 
             // Create and save a message for every subscriber in the group using 
             // template for this campaign
@@ -99,11 +96,15 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
                 var scfValues = Unit.SubscriberRepository.Get(includeProperties: "SubscriberCustomFieldValues").Where(x => x.SubscriberID == subscriber.SubscriberID).First().SubscriberCustomFieldValues.ToList();
 
                 // Create message body and subject
-                string messageBody = FillCustomFields(template.Body, clientCustomFields, scfValues, subscriber);
-                string messageSubject = FillCustomFields(template.Subject, clientCustomFields, scfValues, subscriber);
+                string messageBody = FillCustomFields(template.Body, userCustomFields, scfValues, subscriber);
+                string messageSubject = FillCustomFields(template.Subject, userCustomFields, scfValues, subscriber);
 
                 // Create new Message entity ...
-                Domain.Message message = CreateNextMessage(messageBody, campaign.CampaignID, numberOfMessages + counter);
+                Domain.Message message = CreateNextMessage(messageBody, campaign.CampaignID);
+
+                // Add it to database and then forward to message queue
+                Unit.MessageRepository.Insert(message);
+                Unit.Save();
 
                 // .. and a message for message queue
                 CreatedMessage messageForQueue = new CreatedMessage
@@ -117,19 +118,14 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
                     MailConfigId = campaign.MailConfigID
                 };
 
-                // Add it to database and then forward to message queue
-                Unit.MessageRepository.Insert(message);
                 messagePublisher.Publish(messageForQueue);
-                counter++;
             }
-            Unit.Save();
         }
 
-        private Message CreateNextMessage(string messageBody, int campaignID, int messageID)
+        private Message CreateNextMessage(string messageBody, int campaignID)
         {
             var message = new Message
             {
-                MessageID = messageID,
                 CampaignID = campaignID,
                 Body = messageBody,
                 SentFLAG = false,
@@ -140,7 +136,7 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
         }
 
         // Function that inserts appropriate custom field values into the template body
-        private string FillCustomFields(string templateBody, List<CustomField> clientCustomFields,
+        private string FillCustomFields(string templateBody, List<CustomField> userCustomFields,
             List<SubscriberCustomFieldValue> scfValues, Subscriber subscriber)
         {
             string messageBody = templateBody;
@@ -151,7 +147,7 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             messageBody = messageBody.Replace("*!*PhoneNumber*!*", subscriber.PhoneNumber);
 
             // Replace every occurence custom field with appropriate value
-            foreach (CustomField customField in clientCustomFields)
+            foreach (CustomField customField in userCustomFields)
             {
                 string oldValue = "*!*" + customField.Name + "*!*";
                 string newValue = (scfValues.Where(s => s.SubscriberID == subscriber.SubscriberID && s.CustomFieldID == customField.CustomFieldID)

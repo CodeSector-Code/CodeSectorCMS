@@ -6,7 +6,7 @@ namespace CodeSectorCMS.Domain
     public class Subscriber : BaseEntity
     {
         public int SubscriberID { get; set; }
-        public int ClientID { get; set; }
+        public int UserId { get; set; }
 
         //[Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }
@@ -19,7 +19,7 @@ namespace CodeSectorCMS.Domain
 
         public string PhoneNumber { get; set; }
 
-        public Client Client { get; set; }
+        public User User { get; set; }
         public virtual ICollection<SubscriberCustomFieldValue> SubscriberCustomFieldValues { get; set; }
         public virtual ICollection<SubscriberGroup> SubscriberGroups { get; set; }
     }

@@ -4,44 +4,44 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeSectorCMS.Domain.Repositories
 {
-    public class ClientRepository : IClientRepository, IDisposable
+    public class UserRepository : IUserRepository, IDisposable
     {
         private CmsContext context;
 
-        public ClientRepository(CmsContext context)
+        public UserRepository(CmsContext context)
         {
             this.context = context;
         }
 
-        public IEnumerable<Client> GetClients()
+        public IEnumerable<User> GetUsers()
         {
-            return context.Clients.ToList();
+            return context.Userss.ToList();
         }
 
-        public void InsertClient(Client client)
+        public void InsertUser(User user)
         {
-            context.Clients.Add(client);
+            context.Userss.Add(user);
         }
 
-        public void DeleteClient(int ClientID)
+        public void DeleteUser(int UserId)
         {
-            Client client = context.Clients.Find(ClientID);
-            context.Clients.Remove(client);
+            User user = context.Userss.Find(UserId);
+            context.Userss.Remove(user);
         }
 
-        public void UpdateClient(Client client)
+        public void UpdateUser(User user)
         {
-            context.Entry(client).State = EntityState.Modified;
+            context.Entry(user).State = EntityState.Modified;
         }
 
-        public IEnumerable<Client> FindByName(string name)
+        public IEnumerable<User> FindByName(string name)
         {
-            return context.Clients.Where(c => c.Name.StartsWith(name)).ToList();
+            return context.Userss.Where(c => c.Name.StartsWith(name)).ToList();
         }
 
-        public Client GetClientByID(int ClientID)
+        public User GetUserByID(int UserId)
         {
-            return context.Clients.Find(ClientID);
+            return context.Userss.Find(UserId);
         }
 
         public void Save()

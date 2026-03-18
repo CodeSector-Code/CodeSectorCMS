@@ -14,8 +14,8 @@ namespace CodeSectorCMS.Web.Controllers
         public TemplateController(ILogger<APIKeyController> logger,
             ITemplateManager templateMenager,
             ICustomFieldsManager customFieldManager,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager) : base(logger, userManager, signInManager)
+            UserManager<ApplicationUser> appUserManager,
+            SignInManager<ApplicationUser> signInManager) : base(logger, appUserManager, signInManager)
         {
             this.templateMenager = templateMenager;
             this.customFieldManager = customFieldManager;
@@ -23,12 +23,12 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(templateMenager.GetAllTemplate(ClientId));
+            return View(templateMenager.GetAllTemplate(UserId));
         }
 
         public ActionResult Details(int id = 0)
         {
-            Template template = templateMenager.GetTemplateByID(ClientId, id).First();
+            Template template = templateMenager.GetTemplateByID(UserId, id).First();
             return View(template);
         }
 
@@ -36,7 +36,7 @@ namespace CodeSectorCMS.Web.Controllers
         {
             var template = new TemplateViewModel
             {
-                customFields = customFieldManager.GetAllCustomFields(ClientId).ToList()
+                customFields = customFieldManager.GetAllCustomFields(UserId).ToList()
             };
             return View(template);
         }
@@ -49,7 +49,7 @@ namespace CodeSectorCMS.Web.Controllers
 
                 Template t = new Template
                 {
-                    ClientID = ClientId,
+                    UserId = UserId,
                     Name = template["Name"],
                     Subject = template["Subject"],
                     Body = template["Body"]
@@ -64,9 +64,9 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            TemplateViewModel template = templateMenager.GetTemplateByID(ClientId, id)
-                .Select(t => new TemplateViewModel { TemplateID = t.TemplateID, ClientID = t.ClientID, Name = t.Name, Subject = t.Subject, Body = t.Body, Campaigns = t.Campaigns }).First();
-            template.customFields = customFieldManager.GetAllCustomFields(ClientId).ToList();
+            TemplateViewModel template = templateMenager.GetTemplateByID(UserId, id)
+                .Select(t => new TemplateViewModel { TemplateID = t.TemplateID, UserId = t.UserId, Name = t.Name, Subject = t.Subject, Body = t.Body, Campaigns = t.Campaigns }).First();
+            template.customFields = customFieldManager.GetAllCustomFields(UserId).ToList();
 
             return View(template);
         }
@@ -79,7 +79,7 @@ namespace CodeSectorCMS.Web.Controllers
                 Template t = new Template
                 {
                     TemplateID = Int32.Parse(template["TemplateID"]),
-                    ClientID = ClientId,
+                    UserId = UserId,
                     Name = template["Name"],
                     Subject = template["Subject"],
                     Body = template["Body"]
@@ -94,16 +94,16 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Template template = templateMenager.GetTemplateByID(ClientId, id).First();
+            Template template = templateMenager.GetTemplateByID(UserId, id).First();
             return View(template);
         }
 
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Template template = templateMenager.GetTemplateByID(ClientId, id).First();
+            Template template = templateMenager.GetTemplateByID(UserId, id).First();
 
-            templateMenager.DeleteTemplateByID(ClientId, id);
+            templateMenager.DeleteTemplateByID(UserId, id);
             templateMenager.SaveChanges();
 
             return RedirectToAction("Index");

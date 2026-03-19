@@ -15,7 +15,7 @@ on:
 
 env:
   WEB_SERVER_NAME: "CodeSectorCMS-Web"
-  WEB_SERVER_NAME_ENV: "CodeSectorCMS.Web"
+  WEB_SERVER_NAME_ENV: "CodeSectorCMSWeb"
   SERVER_APP_NAME: "CodeSectorCMS-MessageService"
   RESOURCE_GROUP: "CodeSector"
 

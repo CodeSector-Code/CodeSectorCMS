@@ -59,7 +59,7 @@ jobs:
 
       - name: Update App Service CodeSectorCMS.Web endpoint
         run: |
-          $DEFAULT_DOMAIN = az webapp show --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.WEB_SERVER_NAME }} --query "defaultHostName" --output tsv
+          DEFAULT_DOMAIN=$(az webapp show --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.WEB_SERVER_NAME }} --query "defaultHostName" --output tsv)
           az webapp config appsettings set --name ${{ env.SERVER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --settings ${{ env.WEB_SERVER_NAME_ENV }}="$DEFAULT_DOMAIN"
 
       - name: Deploy to Azure

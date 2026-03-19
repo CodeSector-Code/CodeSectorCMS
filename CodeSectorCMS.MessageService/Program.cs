@@ -1,11 +1,12 @@
-using System;
-using CodeSectorCMS.Domain;
 using Azure.Messaging.ServiceBus;
-using Microsoft.EntityFrameworkCore;
+using CodeSectorCMS.Domain;
+using CodeSectorCMS.Domain.Managers.Implementations;
+using CodeSectorCMS.Domain.Managers.Interfaces;
 using CodeSectorCMS.Domain.Repositories;
 using CodeSectorCMS.MessageService.Services;
-using CodeSectorCMS.Domain.Managers.Interfaces;
-using CodeSectorCMS.Domain.Managers.Implementations;
+using Microsoft.EntityFrameworkCore;
+using System;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace CodeSectorCMS.MessageService
 {
@@ -33,6 +34,8 @@ namespace CodeSectorCMS.MessageService
             });
             builder.Services.AddHostedService<ProcessMailMessages>();
 
+            // Add Controllers
+            builder.Services.AddControllers();
             // Add services to the container.
             builder.Services.AddAuthorization();
 
@@ -42,6 +45,8 @@ namespace CodeSectorCMS.MessageService
             // Configure the HTTP request pipeline.
 
             app.UseAuthorization();
+
+            app.MapControllers();
 
             app.Run();
         }

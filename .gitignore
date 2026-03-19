@@ -54,5 +54,7 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 
+CodeSectorCMS.Domain/Migrations/
 /CodeSectorCMS.Web/appsettings.Development.json
 /CodeSectorCMS.MessageService/appsettings.Development.json
+

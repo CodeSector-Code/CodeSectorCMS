@@ -47,14 +47,14 @@ namespace CodeSectorCMS.MessageService.Services
 
         public string PixelHtmlBody(int id, string body)
         {
-            var trackingUrl = $"{configuration["CodeSectorCMS-Web"]}/api/response/track/?id={id}";
+            var trackingUrl = $"{configuration["CodeSectorCMS.Web"]}/api/response/track/?id={id}";
 
             return $@"
         <html>
         <body>
             <b>{body}</b>
             <!-- Tracking pixel embedded below -->
-            <img src=""{configuration["CodeSectorCMS-Web"]}/images/test.png"" />
+            <img src=""{configuration["CodeSectorCMS.Web"]}/images/test.png"" />
             <img src=""{trackingUrl}"" alt="""" width=""1"" height=""1"" style=""display:none;"" />
         </body>
         </html>";

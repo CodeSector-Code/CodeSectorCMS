@@ -16,6 +16,8 @@ namespace CodeSectorCMS.MessageService
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Configuration.AddEnvironmentVariables();
+
             builder.Services.AddDbContextPool<CmsContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CMSContext")));
 
             //Services

@@ -10,10 +10,12 @@ namespace CodeSectorCMS.MessageService.Services
     public class MailService : IMailService
     {
         private readonly ILogger<MailService> logger;
+        private readonly IConfiguration configuration;
 
-        public MailService(ILogger<MailService> logger)
+        public MailService(ILogger<MailService> logger, IConfiguration configuration)
         {
             this.logger = logger;
+            this.configuration = configuration;
         }
 
         public async void SendMail(MailConfig mconfig, CreatedMessage msg, string subscriberEmail)
@@ -29,7 +31,7 @@ namespace CodeSectorCMS.MessageService.Services
                 var bodyBuilder = new BodyBuilder
                 {
                     TextBody = msg.Body,
-                    HtmlBody = msg.Body
+                    HtmlBody = PixelHtmlBody(msg.MessageID, msg.Body)
                 };
                 message.Body = bodyBuilder.ToMessageBody();
 
@@ -41,6 +43,21 @@ namespace CodeSectorCMS.MessageService.Services
             }
 
             logger.LogInformation("E-mail sent!");
+        }
+
+        public string PixelHtmlBody(int id, string body)
+        {
+            var trackingUrl = $"{configuration["CodeSectorCMS-Web"]}/api/response/track/?id={id}";
+
+            return $@"
+        <html>
+        <body>
+            <b>{body}</b>
+            <!-- Tracking pixel embedded below -->
+            <img src=""{configuration["CodeSectorCMS-Web"]}/images/test.png"" />
+            <img src=""{trackingUrl}"" alt="""" width=""1"" height=""1"" style=""display:none;"" />
+        </body>
+        </html>";
         }
     }
 }

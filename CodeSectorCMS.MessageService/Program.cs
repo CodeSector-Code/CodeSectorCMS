@@ -47,7 +47,7 @@ namespace CodeSectorCMS.MessageService
             // Configure the HTTP request pipeline.
 
             app.UseAuthorization();
-
+            app.UseStaticFiles();
             app.MapControllers();
 
             app.Run();

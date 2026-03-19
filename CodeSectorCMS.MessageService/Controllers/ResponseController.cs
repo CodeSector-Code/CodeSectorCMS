@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using CodeSectorCMS.Domain.Managers.Interfaces;
 
 namespace CodeSectorCMS.MessageService.Controllers
 {
@@ -7,15 +8,21 @@ namespace CodeSectorCMS.MessageService.Controllers
     [ApiController]
     public class ResponseController : ControllerBase
     {
-        [HttpGet("track")]
-        public ActionResult Track([FromQuery] string id)
+        private readonly IMessageManager messageManager;
+
+        public ResponseController(IMessageManager messageManager)
         {
-            // *** Your Logic Here ***
-            // 1. Log the email open event to your database or logging system.
-            //    Use the 'email' and 'eventId' parameters to identify the recipient and campaign.
-            //Console.WriteLine($"Email opened by: {email}, Event ID: {eventId}");
-            // 2. Add server-side logic to handle potential automated email client requests 
-            //    versus actual user opens.
+            this.messageManager = messageManager;
+        }
+
+        [HttpGet("track")]
+        public ActionResult Track([FromQuery] int id)
+        {
+            var msg = messageManager.GetMessageByID(id);
+            msg.Body += "Success!";
+
+            messageManager.SaveMessage(msg);
+            messageManager.SaveChanges();
 
             // Return a transparent 1x1 GIF image
             var pixel = Convert.FromBase64String("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");

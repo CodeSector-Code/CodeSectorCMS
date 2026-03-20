@@ -15,6 +15,7 @@ namespace CodeSectorCMS.MessageService.Controllers
             this.messageManager = messageManager;
         }
 
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         [HttpGet("track")]
         public ActionResult Track([FromQuery] int id)
         {

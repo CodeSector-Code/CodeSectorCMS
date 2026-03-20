@@ -55,7 +55,7 @@ jobs:
         run: |
           az webapp config connection-string set --name ${{ env.SERVER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --settings AzureServiceBus="${{ secrets.AZURE_SERVICE_BUS }}" --connection-string-type ServiceBus
 
-      - name: Update App Service CodeSectorCMS.Web endpoint
+      - name: Update App Service CodeSectorCMS.MessageService endpoint in App Settings
         run: |
           DEFAULT_DOMAIN=$(az webapp show --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.SERVER_APP_NAME }} --query "defaultHostName" --output tsv) 
           az webapp config appsettings set --name ${{ env.SERVER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --settings ${{ env.SERVER_APP_NAME_URL_APPSETTINGS_BAME }}="$DEFAULT_DOMAIN"

@@ -20,11 +20,15 @@ namespace CodeSectorCMS.MessageService.Controllers
         public ActionResult Track([FromQuery] int id)
         {
             var msg = trackMessageManager.GetTrackedMessageByMessageId(id);
-            msg.Opened = true;
-            msg.OpenCount += 1;
 
-            trackMessageManager.SaveTrackMessage(msg);
-            trackMessageManager.SaveChanges();
+            if (msg != null)
+            {
+                msg.Opened = true;
+                msg.OpenCount += 1;
+
+                trackMessageManager.SaveTrackMessage(msg);
+                trackMessageManager.SaveChanges();
+            }
 
             // Return a transparent 1x1 GIF image
             var pixel = Convert.FromBase64String("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");

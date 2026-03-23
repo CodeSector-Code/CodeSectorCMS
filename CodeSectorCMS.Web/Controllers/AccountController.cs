@@ -85,8 +85,9 @@ namespace CodeSectorCMS.Web.Controllers
 
 
         [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(IFormCollection keyValuePairs)
         {
+            var id = Int32.Parse(keyValuePairs["ClientID"]);
             var account = accountManager.GetAllAccounts(UserId).Where(a => a.AccountID == id).First();
 
             if (accountManager.GetAllAccounts(UserId).Count() == 1)
@@ -125,12 +126,13 @@ namespace CodeSectorCMS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                account.UserId = UserId;
-
-                accountManager.SaveAccount(account);
+                var acc = accountManager.GetAccountByID(account.AccountID);
+                acc.Email = account.Email;
+                accountManager.SaveAccount(acc);
                 accountManager.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Account");
+
             }
             return View(account);
         }

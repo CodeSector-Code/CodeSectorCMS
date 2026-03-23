@@ -19,6 +19,7 @@ namespace CodeSectorCMS.Domain
         public DbSet<CustomField> CustomFields { get; set; }
         public DbSet<MailConfig> MailConfigs { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<TrackMessage> TrackMessages { get; set; }
         public DbSet<Subscriber> Subscribers { get; set; }
         public DbSet<SubscriberCustomFieldValue> SubscriberCustomFieldValues { get; set; }
         public DbSet<SubscriberGroup> SubscriberGroups { get; set; }

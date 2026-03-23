@@ -53,17 +53,18 @@ namespace CodeSectorCMS.MessageService.Services
                 using (IServiceScope scope = serviceScopeFactory.CreateScope())
                 {
                     var mailService = scope.ServiceProvider.GetRequiredService<IMailService>();
-                    var messageManager = scope.ServiceProvider.GetRequiredService<IMessageManager>();
+                    var trackMessageManager = scope.ServiceProvider.GetRequiredService<ITrackMessageManager>();
                     var mailConfigManager = scope.ServiceProvider.GetRequiredService<IMailConfigManager>();
 
                     // Retrieve client main configuration and send an email
                     MailConfig clientMailConfig = mailConfigManager.GetMailConfigByID(message.MailConfigId);
                     mailService.SendMail(clientMailConfig, message, message.Email);
 
-                    Message dbMessage = messageManager.GetMessageByID(message.MessageID);
-                    dbMessage.SentFLAG = true;
-                    messageManager.SaveMessage(dbMessage);
-                    messageManager.SaveChanges();
+                    TrackMessage trMessage = trackMessageManager.GetTrackedMessageByMessageId(message.MessageID);
+                    trMessage.Sent = true;
+                    
+                    trackMessageManager.SaveTrackMessage(trMessage);
+                    trackMessageManager.SaveChanges();
                 }
 
             }

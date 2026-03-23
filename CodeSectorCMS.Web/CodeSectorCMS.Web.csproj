@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\html\**" />
+    <Content Remove="wwwroot\html\**" />
+    <EmbeddedResource Remove="wwwroot\html\**" />
+    <None Remove="wwwroot\html\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Views\Account\AccountController.cs" />
   </ItemGroup>
 

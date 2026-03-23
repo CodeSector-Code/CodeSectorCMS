@@ -8,22 +8,23 @@ namespace CodeSectorCMS.MessageService.Controllers
     [ApiController]
     public class ResponseController : ControllerBase
     {
-        private readonly IMessageManager messageManager;
+        private readonly ITrackMessageManager trackMessageManager;
 
-        public ResponseController(IMessageManager messageManager)
+        public ResponseController(ITrackMessageManager messageManager)
         {
-            this.messageManager = messageManager;
+            this.trackMessageManager = messageManager;
         }
 
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         [HttpGet("track")]
         public ActionResult Track([FromQuery] int id)
         {
-            var msg = messageManager.GetMessageByID(id);
-            msg.Body += "Success!";
+            var msg = trackMessageManager.GetTrackedMessageByMessageId(id);
+            msg.Opened = true;
+            msg.OpenCount += 1;
 
-            messageManager.SaveMessage(msg);
-            messageManager.SaveChanges();
+            trackMessageManager.SaveTrackMessage(msg);
+            trackMessageManager.SaveChanges();
 
             // Return a transparent 1x1 GIF image
             var pixel = Convert.FromBase64String("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");

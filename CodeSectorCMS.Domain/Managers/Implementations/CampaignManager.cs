@@ -100,11 +100,15 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
                 string messageSubject = FillCustomFields(template.Subject, userCustomFields, scfValues, subscriber);
 
                 // Create new Message entity ...
-                Domain.Message message = CreateNextMessage(messageBody, campaign.CampaignID);
+                Message message = CreateNextMessage(messageBody, campaign.CampaignID);
 
                 // Add it to database and then forward to message queue
                 Unit.MessageRepository.Insert(message);
                 Unit.Save();
+
+                TrackMessage trackMessage = CreateTrackMessage(message.MessageID, messageSubject, subscriber.Email, subscriber.Name);
+                Unit.TrackMessageRepository.Insert(trackMessage);
+                
 
                 // .. and a message for message queue
                 CreatedMessage messageForQueue = new CreatedMessage
@@ -130,6 +134,19 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
                 Body = messageBody,
                 SentFLAG = false,
                 MonitoringStatus = MonitoringSTATUS.unknown
+            };
+
+            return message;
+        }
+
+        private TrackMessage CreateTrackMessage(int id, string subject, string receiver, string company)
+        {
+            var message = new TrackMessage
+            {
+                MessageId = id,
+                Subject = subject,
+                Receiver = receiver,
+                Company = company
             };
 
             return message;

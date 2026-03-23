@@ -13,6 +13,7 @@ namespace CodeSectorCMS.Domain.Repositories
 
         private GenericRepository<APIKey> apikeyRepository;
         private GenericRepository<Message> messageRepository;
+        private GenericRepository<TrackMessage> trackMessageRepository;
         private GenericRepository<Campaign> campaignRepository;
         private GenericRepository<Template> templateRepository;
         private GenericRepository<SubscriberGroup> subscriberGroupRepository;
@@ -49,6 +50,20 @@ namespace CodeSectorCMS.Domain.Repositories
                 return messageRepository;
             }
         
+        }
+
+        public GenericRepository<TrackMessage> TrackMessageRepository
+        {
+            get
+            {
+                if (this.trackMessageRepository == null)
+                {
+                    this.trackMessageRepository = new GenericRepository<TrackMessage>(context);
+                }
+
+                return trackMessageRepository;
+            }
+
         }
 
         public GenericRepository<Account> AccountRepository

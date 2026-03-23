@@ -5,6 +5,7 @@ namespace CodeSectorCMS.Domain
     public class MailConfig : BaseEntity
     {
         public int MailConfigID { get; set; }
+        public string MailConfigName { get; set; } = string.Empty;
         public int UserId { get; set; }
 
         public string SenderName { get; set; }

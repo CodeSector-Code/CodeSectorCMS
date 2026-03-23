@@ -37,6 +37,7 @@ namespace CodeSectorCMS.Web
             builder.Services.AddScoped<ISubscriberGroupManager,  SubscriberGroupManager>();
             builder.Services.AddScoped<ITemplateManager, TemplateManager>();
             builder.Services.AddScoped<ISubscriberCustomFieldValueManager, SubscriberCustomFieldValueManager>();
+            builder.Services.AddScoped<ITrackMessageManager, TrackMessageManager>();
 
             // Messaging
             builder.Services.AddScoped<IMessagePublisher, AzureMessagePublisher>();

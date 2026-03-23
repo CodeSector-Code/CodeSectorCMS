@@ -22,7 +22,7 @@ namespace CodeSectorCMS.Domain
        //[MaxLength(50)]
        public string Email { get; set; }
 
-       public virtual User User { get; set; }
-       public virtual ICollection<Campaign> Campaigns { get; set; }
+       public virtual User? User { get; set; }
+       public virtual ICollection<Campaign>? Campaigns { get; set; }
     }
 }

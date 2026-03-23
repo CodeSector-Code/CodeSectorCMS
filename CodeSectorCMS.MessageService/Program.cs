@@ -1,12 +1,11 @@
-using Azure.Messaging.ServiceBus;
+using System;
 using CodeSectorCMS.Domain;
-using CodeSectorCMS.Domain.Managers.Implementations;
-using CodeSectorCMS.Domain.Managers.Interfaces;
+using Azure.Messaging.ServiceBus;
+using Microsoft.EntityFrameworkCore;
 using CodeSectorCMS.Domain.Repositories;
 using CodeSectorCMS.MessageService.Services;
-using Microsoft.EntityFrameworkCore;
-using System;
-using static Org.BouncyCastle.Math.EC.ECCurve;
+using CodeSectorCMS.Domain.Managers.Interfaces;
+using CodeSectorCMS.Domain.Managers.Implementations;
 
 namespace CodeSectorCMS.MessageService
 {
@@ -24,6 +23,7 @@ namespace CodeSectorCMS.MessageService
             builder.Services.AddScoped<UnityOfWork>();
             builder.Services.AddScoped<IMailConfigManager, MailConfigManager>();
             builder.Services.AddScoped<IMessageManager, MessageManager>();
+            builder.Services.AddScoped<ITrackMessageManager, TrackMessageManager>();
 
             // Mail Service
             builder.Services.AddScoped<IMailService, MailService>();

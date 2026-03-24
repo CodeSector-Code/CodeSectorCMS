@@ -1,16 +1,9 @@
 ﻿@model CodeSectorCMS.Web.Models.TemplateViewModel
 
-<!DOCTYPE html>
+@section HeadContent {
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
+}
 
-<h4>Template</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -28,31 +21,32 @@
                 <span asp-validation-for="Subject" class="text-danger"></span>
             </div>
 
-            <div class="customfieldwrapperdiv">
-                <div class="customfield" id="Name1">Name</div>
-                <div class="customfield" id="Email1">Email</div>
-                <div class="customfield" id="PhoneNumber1">Phone Number</div>
+            <div class="form-group">
+                <div class="btn btn-sm rounded-pill btn-outline-primary" id="Name1">Name</div>
+                <div class="btn btn-sm rounded-pill btn-outline-primary" id="Email1">Email</div>
+                <div class="btn btn-sm rounded-pill btn-outline-primary" id="PhoneNumber1">Phone Number</div>
                 @foreach (var item in Model.customFields)
                 {
-                    <div class="customfield" id="@item.Name-Subject">@item.Label</div>
+                    <div class="btn btn-sm rounded-pill btn-outline-primary" id="@item.Name-Subject">@item.Label</div>
                 }
             </div>
 
-            <div class="control-label">
+            <div class="mb-3">
                 @Html.LabelFor(model => model.Body)
             </div>
-            <div class="form-control">
-                @Html.TextAreaFor(model => model.Body, htmlAttributes: new { style = "height: 100%; width: 100%; max-width: 100%;" })
+            <div class="mb-3">
+                @Html.TextAreaFor(model => model.Body, new { @class = "form-control", @rows = "10" })
                 @Html.ValidationMessageFor(model => model.Body)
             </div>
 
-            <div class="customfieldwrapperdiv">
-                <div class="customfield" id="Name2">Name</div>
-                <div class="customfield" id="Email2">Email</div>
-                <div class="customfield" id="PhoneNumber2">Phone Number</div>
+            <div class="form-group">
+                
+                <div class="btn btn-sm rounded-pill btn-outline-primary" id="Name2">Name</div>
+                <div class="btn btn-sm rounded-pill btn-outline-primary" id="Email2">Email</div>
+                <div class="btn btn-sm rounded-pill btn-outline-primary" id="PhoneNumber2">Phone Number</div>
                 @foreach (var item in Model.customFields)
                 {
-                    <div class="customfield" id="@item.Name-Body">@item.Label</div>
+                    <div class="btn btn-sm rounded-pill btn-outline-primary" id="@item.Name-Body">@item.Label</div>
                 }
             </div>
 
@@ -133,5 +127,3 @@
             });
         </script>
 }
-</body>
-</html>

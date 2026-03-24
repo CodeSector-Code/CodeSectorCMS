@@ -16,6 +16,6 @@ namespace CodeSectorCMS.Domain
         public string Response { get; set; } = string.Empty;
         public int Status { get; set; }
 
-        public Message Message { get; set; } = new Message();
+        public Message Message { get; set; }
     }
 }

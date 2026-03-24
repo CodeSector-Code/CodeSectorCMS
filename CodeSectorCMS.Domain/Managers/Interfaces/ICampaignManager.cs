@@ -9,6 +9,7 @@ namespace CodeSectorCMS.Domain.Managers.Interfaces
     public interface ICampaignManager : IDisposable
     {
         List<Campaign> GetAllCampaigns();
+        List<Campaign> GetAllCampaignsWithMessages();
         Campaign GetCampaignByID(int id);
         void CreateNewCampaign(Request request);
         void SaveCampaign(Campaign campaign);

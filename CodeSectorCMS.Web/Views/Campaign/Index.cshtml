@@ -1,47 +1,150 @@
-﻿@model IEnumerable<CodeSectorCMS.Domain.Campaign>
+﻿@model IEnumerable<CodeSectorCMS.Domain.MessageModels.ExtendedCampaign>
 
-<!DOCTYPE html>
+@section HeadContent {
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CampaignID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CampaignID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CampaignID">Delete</a>
-            </td>
-        </tr>
 }
-    </tbody>
-</table>
-</body>
-</html>
+
+<h5 class="mb-4"><a asp-action="Create">Create New Campaign</a></h5>
+<div class="table-responsive text-nowrap">
+    <table class="table card-table">
+        <caption class="ms-4">
+            List of Campaigns <br /><br /><br />
+        </caption>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Campaign.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Campaign.Description)</th>
+                <th>Owner</th>
+                <th>Status</th>
+                <th>@Html.DisplayNameFor(Model => Model.Campaign.DateCreated)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+            @foreach (var extendedCampaign in Model)
+            {
+                <tr>
+                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                        <strong>
+                            <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#ColapseTrackMessages-@extendedCampaign.Campaign.CampaignID" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">@Html.DisplayFor(modelItem => extendedCampaign.Campaign.Name)</a>
+                        </strong>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => extendedCampaign.Campaign.Description)</td>
+                    <td>
+                        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                            <li data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="User who created Campaign">
+                                <img src="../assets/img/avatars/profilem.jpg" alt="Avatar" class="rounded-circle" />
+                            </li>
+                        </ul>
+                    </td>
+                    <td><span class="badge bg-label-primary me-1">Active</span></td>
+                    <td>@Html.DisplayFor(modelItem => extendedCampaign.Campaign.DateCreated)</td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@extendedCampaign.Campaign.CampaignID"><i class="bx bx-trash me-1"></i> Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                if (extendedCampaign.TrackMessage.Any())
+                {
+                    <tr>
+                        <td colspan="6">
+                            <div class="collapse" id="ColapseTrackMessages-@extendedCampaign.Campaign.CampaignID">
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table card-table">
+                                        <caption class="ms-4">
+                                            List of Emails
+                                        </caption>
+                                        <thead>
+                                            <tr>
+                                                <th>@Html.DisplayNameFor(model => model.TrackMessage.First().Receiver)</th>
+                                                <th>@Html.DisplayNameFor(model => model.TrackMessage.First().Subject)</th>
+                                                <th>Owner</th>
+                                                <th>@Html.DisplayNameFor(model => model.TrackMessage.First().Company)</th>
+                                                <th>@Html.DisplayNameFor(model => model.TrackMessage.First().Sent)</th>
+                                                <th>@Html.DisplayNameFor(model => model.TrackMessage.First().Opened)</th>
+                                                <th>@Html.DisplayNameFor(model => model.TrackMessage.First().OpenCount)</th>
+                                                <th>@Html.DisplayNameFor(model => model.TrackMessage.First().DateCreated)</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-border-bottom-0">
+                                            @foreach (var trackedMessage in extendedCampaign.TrackMessage)
+                                            {
+                                                <tr>
+                                                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i><strong>@Html.DisplayFor(modelItem => trackedMessage.Receiver)</strong></td>
+                                                    <td>@Html.DisplayFor(modelItem => trackedMessage.Subject)</td>
+                                                    <td>
+                                                        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                                            <li data-bs-toggle="tooltip"
+                                                                data-popup="tooltip-custom"
+                                                                data-bs-placement="top"
+                                                                class="avatar avatar-xs pull-up"
+                                                                title="User who created campaign">
+                                                                @* title=@Html.DisplayFor(modelItem => item.Username)> *@
+                                                                <img src="../assets/img/avatars/profilem.jpg" alt="Avatar" class="rounded-circle" />
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>@Html.DisplayFor(modelItem => trackedMessage.Company)</td>
+
+                                                    @if (trackedMessage.Sent)
+                                                    {
+                                                        <td><span class="badge bg-label-success me-1">Sent</span></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><span class="badge bg-label-danger me-1">Not Sent</span></td>
+                                                    }
+                                                    @if (trackedMessage.Opened)
+                                                    {
+                                                        <td><span class="badge bg-label-success me-1">Opened</span></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><span class="badge bg-label-danger me-1">Not Opend</span></td>
+                                                    }
+
+                                                    @if (trackedMessage.OpenCount > 0)
+                                                    {
+                                                        <td class="center-container"><span class="badge badge-center bg-label-success">@Html.DisplayFor(modelItem => trackedMessage.OpenCount)</span></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="center-container"><span class="badge badge-center bg-label-secondary">@Html.DisplayFor(modelItem => trackedMessage.OpenCount)</span></td>
+                                                    }
+
+                                                    <td>@Html.DisplayFor(modelItem => trackedMessage.DateCreated)</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@trackedMessage.Id"><i class="bx bx-trash me-1"></i> Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

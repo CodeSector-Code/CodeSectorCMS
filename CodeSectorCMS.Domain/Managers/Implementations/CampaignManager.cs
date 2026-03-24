@@ -49,6 +49,11 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
             return Unit.CampaignRepository.GetAll().ToList();
         }
 
+        public List<Campaign> GetAllCampaignsWithMessages()
+        {
+            return Unit.CampaignRepository.Get(includeProperties: "Messages").ToList();
+        }
+
         public Campaign GetCampaignByID(int id)
         {
             return Unit.CampaignRepository.GetByID(id);

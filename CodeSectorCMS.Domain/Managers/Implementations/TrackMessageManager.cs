@@ -25,7 +25,7 @@ namespace CodeSectorCMS.Domain.Managers.Implementations
 
         public TrackMessage GetTrackedMessageByMessageId(int messageId)
         {
-            return unityOfWork.TrackMessageRepository.Get(includeProperties: "Message").Where(x => x.MessageId == messageId).First();
+            return unityOfWork.TrackMessageRepository.GetAll().Where(x => x.MessageId == messageId).First();
         }
 
         public void SaveTrackMessage(TrackMessage trackMessage)

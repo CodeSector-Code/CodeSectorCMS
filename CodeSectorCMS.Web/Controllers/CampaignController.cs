@@ -14,17 +14,20 @@ namespace CodeSectorCMS.Web.Controllers
         private readonly ICampaignManager campaignManager;
         private readonly IUserManager userManager;
         private readonly IAccountManager accountManager;
+        private readonly ITrackMessageManager trackMessageManager;
 
         public CampaignController(ILogger<APIKeyController> logger,
             ICampaignManager campaignManager,
             IUserManager userManager,
             IAccountManager accountManager,
+            ITrackMessageManager trackMessageManager,
             UserManager<ApplicationUser> appUserManager,
             SignInManager<ApplicationUser> signInManager) : base(logger, appUserManager, signInManager)
         {
             this.campaignManager = campaignManager;
             this.userManager = userManager;
             this.accountManager = accountManager;
+            this.trackMessageManager = trackMessageManager;
         }
 
         //
@@ -32,8 +35,22 @@ namespace CodeSectorCMS.Web.Controllers
 
         public ActionResult Index()
         {
-            var campaigns = campaignManager.GetAllCampaigns().Where(c => c.UserId == UserId);
-            return View(campaigns.ToList());
+            var extendedCampaigns = new List<ExtendedCampaign>();
+
+            var campaigns = campaignManager.GetAllCampaignsWithMessages().Where(c => c.UserId == UserId);
+
+            foreach (var item in campaigns)
+            {
+                var trackMessages = new List<TrackMessage>();
+
+                foreach (var message in item.Messages)
+                {
+                    trackMessages.Add(trackMessageManager.GetTrackedMessageByMessageId(message.MessageID));
+                }
+
+                extendedCampaigns.Add(new ExtendedCampaign { Campaign = item, TrackMessage = trackMessages });
+            }
+            return View(extendedCampaigns);
         }
 
         //
